@@ -1,5 +1,6 @@
 # Fi-DEL
 Création de Lampe LED Connecté au wifi. a l'aide de Wemos D1-mini
+![Fi-DEL](https://github.com/Miauto/Fi-DEL/blob/master/images/Fi-DEL.png?raw=true "Fi-DEL")
 
 ## Accessoires
 
