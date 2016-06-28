@@ -10,6 +10,12 @@ Le tout piloté par une seul interface Web.
   - Des lampes d'ambiance de couleurs.
   - Pilotable depuis mon smartphone.
   - Piloté plusieurs à la fois.
+   
+## Améliorations Futur
+- [ ] Création de page Html indépendante au code (par fichier sépration).
+- [ ] Séparation des Script d'effet lumières.
+- [ ] Amélioration de l'interface par intégration JS
+
 
 ## Accessoires
 
