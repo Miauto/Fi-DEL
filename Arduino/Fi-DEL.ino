@@ -37,7 +37,7 @@ void handleRoot() {
     "<script>\n"
     "\n"
     "var nodes = [\n"
-    "    'http://espe0c2f1',\n"
+    "    'http://espe0c2f1',\n"      // A modifier > Nom des wemos sur le reseau
     "    'http://espe0bfad',\n"
     "    'http://esp001507',\n"
     "    'http://espe0c786',\n"
