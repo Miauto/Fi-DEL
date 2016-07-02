@@ -15,7 +15,7 @@ Le tout piloté par une seul interface Web.
 ## Améliorations Futur
 - [ ] Création de page Html indépendante au code (par fichier sépration).
 - [ ] Séparation des Script d'effet lumières.
-- [ ] Amélioration de l'interface par intégration JS.
+- [ ] Amélioration de l'interface par intégration JS. ![JS](http://www.jqueryrain.com/?vMUktPIX "JS")
 - [ ] Utilisé la memoire eeprom pour redemarrer sur le dernier effet utilisé.
 - [ ] Voir pour géré la Led Bleu du ESP
 - [ ] Faire un version en prog dur, sans passer par arduino. Pas de mon niveau (pour le moment :p )
