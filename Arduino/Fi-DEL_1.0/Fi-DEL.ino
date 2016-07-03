@@ -116,7 +116,7 @@ void handleRoot() {
     "</script>\n"
     "</head>\n"
     "<body style='background-color: rgb(12, 24, 36)'>\n"
-    "<span style='display:block; width:100%; font-size:2em; font-family:Verdana; text-align:center; color:white'>Led-Fi</span>\n"
+    "<span style='display:block; width:100%; font-size:2em; font-family:Verdana; text-align:center; color:white'>Fi-Del</span>\n"
     "<br/>\n"
     "<a href='/color?couleur=%23000000&vitesse=0'><span style='display:block; float: left; background-color:Black; width:100%; height:5em;font-size:2em; font-family:Verdana; text-align:center; color:White'>BLACKOUT</span></a>\n"
     "<br>\n"
