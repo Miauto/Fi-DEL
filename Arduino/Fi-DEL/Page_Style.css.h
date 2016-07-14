@@ -1,4 +1,4 @@
-const char PAGE_rangeslider_css[] PROGMEM = R"=====(
+const char PAGE_Style_css[] PROGMEM = R"=====(
 
 body {
   font-family: 'Handlee', cursive;
