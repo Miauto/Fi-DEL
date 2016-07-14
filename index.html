@@ -34,10 +34,10 @@
         <h1>
 <a id="fi-del" class="anchor" href="#fi-del" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Fi-DEL</h1>
 
-<p>Création de plusieurs Lampes LED connecté au wifi, à l'aide de Wemos D1-mini. 
+<p>Création de plusieurs Lampes LED connectées au wifi, à l'aide de Wemos D1-mini. Normalement compatibles avec d'autres ESP.
 <img src="https://github.com/Miauto/Fi-DEL/blob/master/images/Fi-DEL.png?raw=true" alt="Fi-DEL" title="Fi-DEL"></p>
 
-<p>Le tout piloté par une seul interface Web.</p>
+<p>Le tout piloté par une seule interface Web.</p>
 
 <p><img src="https://github.com/Miauto/Fi-DEL/blob/master/images/Web.png?raw=true" alt="Web" title="Web"></p>
 
@@ -46,17 +46,21 @@
 
 <ul>
 <li>Des lampes d'ambiance de couleurs.</li>
-<li>Pilotable depuis mon smartphone.</li>
-<li>Piloté plusieurs à la fois.</li>
+<li>Pilotables depuis mon smartphone.</li>
+<li>En piloter plusieurs à la fois.</li>
+<li>Intégrer les différents scripts effect fastled et neopixel.</li>
 </ul>
 
 <h2>
-<a id="améliorations-futur" class="anchor" href="#am%C3%A9liorations-futur" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Améliorations Futur</h2>
+<a id="améliorations-futures" class="anchor" href="#am%C3%A9liorations-futures" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Améliorations Futures</h2>
 
 <ul>
-<li>[ ] Création de page Html indépendante au code (par fichier sépration).</li>
-<li>[ ] Séparation des Script d'effet lumières.</li>
-<li>[ ] Amélioration de l'interface par intégration JS</li>
+<li>[ ] Création de page Html indépendante au code (par fichiers séparés).</li>
+<li>[ ] Séparation des Scripts d'effets lumières.</li>
+<li>[ ] Amélioration de l'interface par intégration JS. <a href="http://www.jqueryrain.com/?vMUktPIX" title="Exemple">Exemple</a>.</li>
+<li>[ ] Utilisation de la memoire eeprom pour redémarrer sur le dernier effet utilisé.</li>
+<li>[ ] Voir pour gérer la Led Bleu du ESP</li>
+<li>[ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )</li>
 </ul>
 
 <h2>
@@ -72,13 +76,34 @@
 </ul>
 
 <h2>
-<a id="exemple-de-réalisation-mécanique" class="anchor" href="#exemple-de-r%C3%A9alisation-m%C3%A9canique" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exemple de Réalisation Mécanique</h2>
+<a id="réalisation" class="anchor" href="#r%C3%A9alisation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Réalisation</h2>
+
+<ul>
+<li>Dans le script changer le SSID et MPD (possibilité de mettre 2 SSID)</li>
+<li>Les démarrer puis scanner le réseau avec fing (Android), leur nom netbios devrait apparaître.</li>
+<li>Modifier les noms de la ligne 40 à 44 (mettre autant de ligne que de wemos)</li>
+<li>Recharger tous les wemos</li>
+<li>Raccorder l'ensemble</li>
+<li>Tester (cela marche avec Chrome 51.0.2704.103)
+Il se peut que certains ne répondent pas tout de suite. Insister.</li>
+</ul>
 
 <p><img src="https://github.com/Miauto/Fi-DEL/blob/master/images/Raccordement.png?raw=true" alt="Raccordement" title="Raccordement"></p>
 
 <ul>
-<li>Soudure de 4 LED pour former un cercle, toute dos à dos</li>
-<li>Soudure de trois fils entre le Wemos et les WS28xx</li>
+<li>Souder 4 LED ou plus (adapter la variable NbLED) pour former un cercle, toutes dos à dos.</li>
+<li>Souder trois fils entre le Wemos et les WS28xx</li>
+<li>Mettre le tout dans la boule et faire en sorte que les led reste en son centre. Tendre un fil de haut en bas pour les guider.</li>
+<li>Let's GO</li>
+</ul>
+
+<h2>
+<a id="bugs-et-gènes" class="anchor" href="#bugs-et-g%C3%A8nes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bugs et gènes</h2>
+
+<ul>
+<li>La Led bleu du wemos reste allumée.</li>
+<li>L'ordinateur ou la tablette ne voit pas tous les wemos de suite, insister, cela vient rapidement.</li>
+<li>Wifi non reparamétrable via le web.</li>
 </ul>
       </section>
     </div>
