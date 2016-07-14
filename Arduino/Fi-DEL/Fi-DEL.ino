@@ -5,7 +5,7 @@
 #include <Adafruit_NeoPixel.h>
 
 
-#define PIN   2
+#define PIN   0 // GPIO.2 reservé a la led bleu du ESP
 #define NbLED 4
 #define colorSaturation 255
 String Choix = "Rainbow";
@@ -334,7 +334,8 @@ void initLED()
 
 
 void setup ( void ) {
-    
+    digitalWrite(2, LOW);
+      
     strip.begin();
     strip.show();
 
