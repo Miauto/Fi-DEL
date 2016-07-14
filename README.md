@@ -17,7 +17,7 @@ Le tout piloté par une seule interface Web.
 - [ ] Séparation des Scripts d'effets lumières.
 - [ ] Amélioration de l'interface par intégration JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
 - [ ] Utilisation de la memoire eeprom pour redémarrer sur le dernier effet utilisé.
-- [ ] Voir pour gérer la Led Bleu du ESP
+- [x] Voir pour gérer la Led Bleu du ESP
 - [ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )
 
 
@@ -48,6 +48,5 @@ Le tout piloté par une seule interface Web.
 * Let's GO
 
 ## Bugs et gènes
-- La Led bleu du wemos reste allumée.
 - L'ordinateur ou la tablette ne voit pas tous les wemos de suite, insister, cela vient rapidement.
 - Wifi non reparamétrable via le web.
