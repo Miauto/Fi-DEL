@@ -166,7 +166,7 @@ void setup ( void ) {
     server.on ( "/Picker.js", []() {
     server.send ( 200, "text/plain", PAGE_Picker_js );
   } );
-  server.on ( "/Page_Style.css", []() {
+  server.on ( "/Style.css", []() {
     server.send ( 200, "text/css", PAGE_Style_css );
   } );
   server.onNotFound ( handleNotFound );
