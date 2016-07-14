@@ -8,7 +8,7 @@
 #include "Pages_html.h"
 #include "LedAnim.h"
 //#include "Animation.h"
-#include "Page_rangeslider.css.h"
+#include "Page_Style.css.h"
 
 #define colorSaturation 255
 String Choix = "Fire";
@@ -166,8 +166,8 @@ void setup ( void ) {
     server.on ( "/Picker.js", []() {
     server.send ( 200, "text/plain", PAGE_Picker_js );
   } );
-  server.on ( "/rangeslider.css", []() {
-    server.send ( 200, "text/css", PAGE_rangeslider_css );
+  server.on ( "/Page_Style.css", []() {
+    server.send ( 200, "text/css", PAGE_Style_css );
   } );
   server.onNotFound ( handleNotFound );
   server.begin();
