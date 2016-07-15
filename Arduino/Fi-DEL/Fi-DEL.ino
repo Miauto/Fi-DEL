@@ -4,6 +4,7 @@
 #include <ESP8266mDNS.h>
 #include <Adafruit_NeoPixel.h>
 
+#define BlueLed 2
 
 #define PIN   0 // GPIO.2 reservé a la led bleu du ESP
 #define NbLED 4
@@ -335,7 +336,8 @@ void initLED()
 
 void setup ( void ) {
     digitalWrite(2, LOW);
-      
+    pinMode(BlueLed, OUTPUT); 
+    digitalWrite(BlueLed, LOW); //Allumage de la LED Bleu du ESP
     strip.begin();
     strip.show();
 
@@ -361,11 +363,16 @@ void setup ( void ) {
         Serial.println ( "MDNS responder started" );
     }
     server.on ( "/", []() {handleRoot();} );
-    server.on ( "/rainbow", []()  {Choix = "Rainbow"; handleRoot(); } );
-    server.on ( "/theatre", []()  {Choix = "theaterChaseRainbow"; handleRoot();} );
-    server.on ( "/neige", []()    {Choix = "neige"; handleRoot();} );
-    server.on ( "/Gyro", []()    {Choix = "Gyro"; handleRoot();} );
-    server.on ( "/color", []()    {Choix = "color"; handleRoot();} );
+    server.on ( "/rainbow", []()  {Choix = "Rainbow"; 
+    digitalWrite(BlueLed, LOW); handleRoot(); } );
+    server.on ( "/theatre", []()  {Choix = "theaterChaseRainbow"; 
+    digitalWrite(BlueLed, LOW); handleRoot();} );
+    server.on ( "/neige", []()    {Choix = "neige"; 
+    digitalWrite(BlueLed, LOW); handleRoot();} );
+    server.on ( "/Gyro", []()    {Choix = "Gyro"; 
+    digitalWrite(BlueLed, LOW); handleRoot();} );
+    server.on ( "/color", []()    {Choix = "color"; 
+    digitalWrite(BlueLed, LOW); handleRoot();} );
     server.onNotFound ( handleNotFound );
     server.begin();
     Serial.println ( "HTTP server started" );
@@ -377,6 +384,8 @@ void setup ( void ) {
 void loop ( void ) {
   unsigned char rainbowIndex;
   unsigned char theaterChaseRainbowIndex;
+  
+  digitalWrite(BlueLed, HIGH);
   
     mdns.update();
     server.handleClient();
