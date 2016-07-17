@@ -13,12 +13,13 @@ Le tout piloté par une seule interface Web.
   - Intégrer les différents scripts effect fastled et neopixel.
    
 ## Améliorations Futures
-- [ ] Création de page Html indépendante au code (par fichiers séparés).
-- [ ] Séparation des Scripts d'effets lumières.
-- [ ] Amélioration de l'interface par intégration JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
+- [x] Création de page Html indépendante au code (par fichiers séparés). (voir branche BETA)
+- [x] Séparation des Scripts d'effets lumières. (voir branche BETA)
+- [ ] Amélioration de l'interface par intégration de JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
 - [ ] Utilisation de la memoire eeprom pour redémarrer sur le dernier effet utilisé.
 - [x] Voir pour gérer la Led Bleu du ESP
 - [ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )
+- Augmenter la bibliotheque de d'effet.
 
 
 ## Accessoires
