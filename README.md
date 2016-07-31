@@ -44,7 +44,7 @@ Le tout piloté par une seule interface Web.
 ![Raccordement](https://github.com/Miauto/Fi-DEL/blob/master/images/Raccordement.png?raw=true "Raccordement")
 
 * Souder 4 LED ou plus (adapter la variable NbLED) pour former un cercle, toutes dos à dos.
-* Souder trois fils entre le Wemos et les WS28xx
+* Souder trois fils entre le Wemos et les WS28xx, évité la PIN D4.
 * Mettre le tout dans la boule et faire en sorte que les led reste en son centre. Tendre un fil de haut en bas pour les guider.
 * Let's GO
 
