@@ -16,6 +16,9 @@ body {
     color: #282b2f;
     font-size: 50px;
 }
+.icon-spaceinvaders {
+    width: 1.03125em;
+}
 
 .block-25 {  
   display: inline-block;

@@ -2,35 +2,17 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+#include <EEPROM.h>
 
-
+#include "Configuration.h"
 #include "Page_Script.js.h"
 #include "Pages_html.h"
 #include "LedAnim.h"
 //#include "Animation.h"
 #include "Page_Style.css.h"
 
-#define colorSaturation 255
-String Choix = "Fire";
-String Couleur = "";
-String Vitesse = "";
 
-byte rainbowIndex;
-byte theaterChaseRainbowIndex;
-byte RainbowCycleIndex;
 
-const int nbssid = 2;
-
-const char *ssid[] = {
-//  "ssid1",
-//  "ssid2",
-};
-const char *password[] = {
-//  "mdp1",
-//  "mdp2",
-};
-
-int ErrComm = 0;
 
 MDNSResponder mdns;
 ESP8266WebServer server ( 80 );
@@ -45,13 +27,7 @@ void handleRoot() {
     if (server.argName (i) == "vitesse" ) {
       Vitesse = server.arg(i);
     }
-    //    out += i + ": ";
-    //    out += server.argName (i) + "= ";
-    //    out += server.arg(i) + "\n";
   }
-  //  Couleur = server.arg(0);
-  //  Vitesse = server.arg(1);
-  //  server.send ( 200, "text/html", out );
 }
 void handleNotFound() {
   String message = "File Not Found\n\n";
@@ -70,13 +46,20 @@ void handleNotFound() {
   server.send ( 404, "text/plain", message );
 }
 
- 
+
 void setup ( void ) {
   Serial.begin ( 115200 );
-  
+  pinMode(BlueLed, OUTPUT);
+  digitalWrite(BlueLed, LOW); //Allumage de la LED Bleu du ESP pendant la phase d'init
   strip.begin();
   strip.show();
 
+  /*======================================
+              Debut Connection WIFI
+    ======================================*/
+
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
   int SSID_N = 0;
   Serial.println ( "" );
   Serial.println ( "Connection au SSID : " );
@@ -84,106 +67,149 @@ void setup ( void ) {
   WiFi.begin ( ssid[SSID_N], password[SSID_N] );
   Serial.println ( "" );
   // Wait for connection
-  while ( WiFi.status() != WL_CONNECTED ) {
+  while ( WiFi.status() != WL_CONNECTED && WifiNotFound <= 3) {
     delay ( 500 );
     Serial.print ( "." );
     Serial.print ( ErrComm );
     ErrComm = ErrComm + 1;
     if (ErrComm > 15) {
+      Serial.println ( "" );
+      Serial.println ( "SSID non present" );
       SSID_N++;
-      if (SSID_N > nbssid) {
+      if (SSID_N > (nbssid - 1) ) {
         SSID_N = 0;
+        Blink(255, 0, 0, 100, 100, 3);
+        Blink(0, 0, 255, 100, 100, 1); // clignotte 3 fois rouge et 1 bleu pour erreur wifi
+        WifiNotFound = WifiNotFound + 1;
       }
       ErrComm = 0;
       Serial.println ( "" );
-      Serial.println ( "SSID non present" );
       Serial.println ( "Connection au SSID : " );
       Serial.print ( ssid[SSID_N] );
       Serial.println ( "" );
       WiFi.begin ( ssid[SSID_N], password[SSID_N] );
     }
   }
-  Serial.println ( "" );
-  Serial.print ( "Connecte a " );
-  Serial.println ( ssid[SSID_N] );
-  Serial.print ( "IP Adresse: " );
-  Serial.println ( WiFi.localIP() );
+  if ( WiFi.status() == WL_CONNECTED ) {
+    Serial.println ( "" );
+    Serial.print ( "Connecte a " );
+    Serial.println ( ssid[SSID_N] );
+    Serial.print ( "IP Adresse: " );
+    Serial.println ( WiFi.localIP() );
+  }
+
+  if ( WifiNotFound > 3 && ModeWifi_STA == true) {
+    Serial.println ( "" );
+    Serial.println ( "Creation de point Wifi " );
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP( ACCESS_POINT_NAME , ACCESS_POINT_PASSWORD);
+    Serial.println ( "" );
+    Serial.print ( "SSID : " );
+    Serial.println ( ACCESS_POINT_NAME );
+    Serial.print ( "PASSWORD : " );
+    Serial.println ( ACCESS_POINT_PASSWORD );
+    Serial.print ( "IP Adresse: " );
+    Serial.println ( WiFi.localIP() );
+  }
+
+
+
+  /*======================================
+              Fin Connection WIFI
+    ======================================*/
 
   if ( mdns.begin ( "esp8266", WiFi.localIP() ) ) {
     Serial.println ( "MDNS responder started" );
   }
   server.on ( "/", []() {
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/rainbow", []()  {
     Choix = "Rainbow";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/rain", []()  {
     Choix = "Rainbow";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
-    server.on ( "/RainbowCycle", []()  {
+  server.on ( "/RainbowCycle", []()  {
     Choix = "RainbowCycle";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/theatre", []()  {
     Choix = "theaterChaseRainbow";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/neige", []()    {
     Choix = "neige";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/TwinkleRandom", []()    {
     Choix = "TwinkleRandom";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/Gyro", []()    {
     Choix = "Gyro";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/Fire", []()    {
     Choix = "Fire";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
   server.on ( "/color", []()    {
     Choix = "color";
+    digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
-    server.on ( "/config", []() {
-    server.send ( 200, "text/plain", config_page );
+  server.on ( "/config", []() {
+    Choix = "config";
+    digitalWrite(BlueLed, LOW);
+    server.send ( 200, "text/html", config_page );
   } );
   server.on ( "/SendAll.js", []() {
+    digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/plain", PAGE_SendAll_js );
   } );
   server.on ( "/rangeslider.js", []() {
+    digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/plain", PAGE_rangeslider_js );
   } );
   server.on ( "/rangeslider.min.js", []() {
+    digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/plain", PAGE_rangeslider_min_js );
   } );
-    server.on ( "/Picker.js", []() {
+  server.on ( "/Picker.js", []() {
+    digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/plain", PAGE_Picker_js );
   } );
   server.on ( "/Style.css", []() {
+    digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/css", PAGE_Style_css );
   } );
   server.onNotFound ( handleNotFound );
   server.begin();
   Serial.println ( "HTTP server started" );
   initLED();
-  
-  digitalWrite(2, LOW); //extinction de la LED Bleu du ESP
   Serial.println ( "Init Finish" );
 }
 
 
 void loop ( void ) {
-  
+
   mdns.update();
   server.handleClient();
   HexatoDec(Couleur);
+  //  pinMode(BlueLed, OUTPUT);
+  digitalWrite(BlueLed, HIGH);
 
   if (Choix == "neige") {
     SnowSparkle(0x10, 0x10, 0x10, 100, random(200, 1000));
@@ -195,11 +221,10 @@ void loop ( void ) {
     RainbowCycle(&RainbowCycleIndex);
   } else if (Choix == "Gyro") {
     LeftToRight(255, 0, 0, 75, 0);
- } else if (Choix == "TwinkleRandom") {
+  } else if (Choix == "TwinkleRandom") {
     TwinkleRandom(500, false);
- } else if (Choix == "Fire") {
-//    Fire();          // V1
-    Fire(1,1000,100); // V2
+  } else if (Choix == "Fire") {
+    Fire(1, 1000, 100);
   } else if (Choix == "color") {
 
     if ( Vitesse.toInt() > 0 ) {
@@ -210,10 +235,11 @@ void loop ( void ) {
   }
 
   if (Choix != "") {
-//    Serial.println (Choix);
+    //    Serial.println (Choix);
   }
   if (Couleur != "") {
-//    Serial.println (Couleur);
+    //    Serial.println (Couleur);
   }
 
 }
+

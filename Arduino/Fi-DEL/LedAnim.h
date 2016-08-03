@@ -1,8 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 
-#define NbLED 10
+#define NbLED 24
 #define PIN   0
- 
+
 byte Rgb = 0;
 byte rGb = 0;
 byte rgB = 0;
@@ -28,6 +28,18 @@ void setAll(byte red, byte green, byte blue) {
   }
   strip.show();
 }
+
+////////////////////////// Blink START
+void Blink(byte red, byte green, byte blue, int DelayOff, int DelayOn, int Nb) {
+  for (int i=0; i<Nb; i++) {
+    setAll(red,green,blue);
+    delay(DelayOn);
+    setAll(0,0,0);
+    delay(DelayOff);
+  }
+}
+////////////////////////// Blink END
+
 
 ////////////////////////// fade START ////////// jamais tester
 void fade(int time, int i1, int i2) {
@@ -64,24 +76,24 @@ void showStrip() {
 void setPixelHeatColor (int Pixel, byte temperature) {
   // Scale 'heat' down from 0-255 to 0-191
   byte t192 = round((temperature/255.0)*191);
- 
+
   // calculate ramp up from
   byte heatramp = t192 & 0x3F; // 0..63
   heatramp <<= 2; // scale up to 0..252
- 
+
   // figure out which third of the spectrum we're in:
   if( t192 > 0x80) {                     // hottest
     setPixel(Pixel, heatramp,  heatramp/5, 0);
-    Serial.print (heatramp);
-    Serial.println ("    Hot");
+//    Serial.print (heatramp);
+//    Serial.println ("    Hot");
   } else if( t192 > 0x40 ) {             // middle
     setPixel(Pixel, heatramp, heatramp/4, 0);
-    Serial.print (heatramp);
-    Serial.println ("    Mid");
+//    Serial.print (heatramp);
+//    Serial.println ("    Mid");
   } else {                               // coolest
     setPixel(Pixel, heatramp, heatramp/3, 0);
-    Serial.print (heatramp);
-    Serial.println ("    Cool");
+//    Serial.print (heatramp);
+//    Serial.println ("    Cool");
   }
 }
 ////////////////////////// END
@@ -109,7 +121,7 @@ void HexatoDec(String Hexa) {
   rGb = number >> 8 & 0xFF;
   rgB = number & 0xFF;
 }
-////////////////////////// 
+//////////////////////////
 
 ////////////////////////// WHEEL Fonction
 // Input a value 0 to 255 to get a color value.
@@ -125,7 +137,7 @@ uint32_t Wheel(byte WheelPos) {
     return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
   }
 }
-////////////////////////// 
+//////////////////////////
 
 ////////////////////////// Rainbow
 void rainbow(uint8_t wait, byte* j) {
@@ -133,7 +145,6 @@ void rainbow(uint8_t wait, byte* j) {
   *j = *j + 1;
   for (i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, Wheel((i + *j) & 255));
-    Serial.println (*j);
   }
   strip.show();
   delay(wait);
@@ -146,7 +157,6 @@ void RainbowCycle(byte* j) {
   *j = *j + 1;
   for (i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + *j) & 255));
-    Serial.println (*j);
   }
   strip.show();
   delay(20);
@@ -155,15 +165,13 @@ void RainbowCycle(byte* j) {
 
 //////////////////////////  Theatre-style crawling lights with rainbow effect
 void theaterChaseRainbow(uint8_t wait,  byte* j) {
-  *j++;   // cycle all 256 colors in the wheel
+  *j = *j + 1;   // cycle all 256 colors in the wheel
   for (int q = 0; q < 3; q++) {
     for (int i = 0; i < strip.numPixels(); i = i + 3) {
       strip.setPixelColor(i + q, Wheel( (i + *j) % 255)); //turn every third pixel on
     }
     strip.show();
-
     delay(wait);
-
     for (int i = 0; i < strip.numPixels(); i = i + 3) {
       strip.setPixelColor(i + q, 0);      //turn every third pixel off
     }
@@ -230,35 +238,30 @@ void TwinkleRandom(int SpeedDelay, boolean OnlyOne) {
 void Fire(int Cooling, int Sparking, int SpeedDelay) {
   static byte heat[NbLED];
   int cooldown;
-  
+
   // Step 1.  Cool down every cell a little
   for( int i = 0; i < NbLED; i++) {
     cooldown = random(0, ((Cooling * 10) / NbLED) + 2);
-    
     if(cooldown>heat[i]) {
       heat[i]=0;
     } else {
       heat[i]=heat[i]-cooldown;
     }
   }
-  
   // Step 2.  Heat from each cell drifts 'up' and diffuses a little
   for( int k= NbLED - 1; k >= 2; k--) {
     heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2]) / 3;
   }
-    
   // Step 3.  Randomly ignite new 'sparks' near the bottom
   if( random(255) < Sparking ) {
     int y = random(7);
     heat[y] = heat[y] + random(160,255);
     //heat[y] = random(160,255);
   }
-
   // Step 4.  Convert heat to LED colors
   for( int j = 0; j < NbLED; j++) {
     setPixelHeatColor(j, heat[j] );
   }
-
   showStrip();
   delay(random(SpeedDelay));
 }
@@ -275,6 +278,6 @@ void initLED()
   setAll(0, 0, 127);
   delay(500);
   setAll(127, 127, 127);
-  delay(1000);
+  delay(500);
 }
 ////////////////////////// INIT END

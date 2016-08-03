@@ -6,6 +6,7 @@ var nodes = [
     'http://esp001507',
     'http://espe0c786',
     'http://esp104d81',
+    'http://ESP_104d81',
 ]
 function sendReq(path, params) {
     var oReq = new XMLHttpRequest();
@@ -616,3 +617,4 @@ function toHex(n) {
 }
 
 )=====";
+
