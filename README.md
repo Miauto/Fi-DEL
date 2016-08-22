@@ -33,12 +33,14 @@ Le tout piloté par une seule interface Web.
 
 ## Réalisation
 
-* Dans le script changer le SSID et MPD (possibilité de mettre 2 SSID)
+* Premier temps installer le logiciel [Arduino](https://www.arduino.cc/en/Main/Software)
+* [Configurer](ConfigurerArduino.md).
+* Dans le script changer le SSID et MDP (possibilité de mettre x SSID)
 * Les démarrer puis scanner le réseau avec fing (Android), leur nom netbios devrait apparaître.
 * Modifier les noms de la ligne 40 à 44 (mettre autant de ligne que de wemos)
 * Recharger tous les wemos
 * Raccorder l'ensemble
-* Tester (cela marche avec Chrome 51.0.2704.103)
+* Tester avec Chrome 51.0.2704.103 + Livebox
     Il se peut que certains ne répondent pas tout de suite. Insister.
 
 ![Raccordement](https://github.com/Miauto/Fi-DEL/blob/master/images/Raccordement.png?raw=true "Raccordement")
