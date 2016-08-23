@@ -1,5 +1,5 @@
 # Fi-DEL
-Voir la [Beta](/tree/Beta)
+
 Création de plusieurs Lampes LED connectées au wifi, à l'aide de Wemos D1-mini. Normalement compatibles avec d'autres ESP.
 ![Fi-DEL](/images/Fi-DEL.png?raw=true "Fi-DEL")
 
@@ -13,7 +13,7 @@ Le tout piloté par une seule interface Web.
   - En piloter plusieurs à la fois.
   - Intégrer les différents scripts effect fastled et neopixel.
 
-## Améliorations Futures (Voir la [Beta](/tree/Beta)) 
+## Améliorations Futures 
 - [x] Création de page Html indépendante au code (par fichiers séparés).
 - [x] Séparation des Scripts d'effets lumières.
 - [ ] Amélioration de l'interface par intégration de JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
