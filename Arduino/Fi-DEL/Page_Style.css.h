@@ -4,7 +4,7 @@ body {
   font-family: 'Handlee', cursive;
   color: white;
   background-color: #282b2f;
-}  
+}
 
 .icon {
     display: inline-block;
@@ -20,7 +20,7 @@ body {
     width: 1.03125em;
 }
 
-.block-25 {  
+.block-25 {
   display: inline-block;
   float: left;
   height:5em;
@@ -33,7 +33,7 @@ body {
 }
 
 .block-100 {
-  
+
 }
 /* ----------------------------------- */
 <!-- #########  ANIMATION  ######### -->

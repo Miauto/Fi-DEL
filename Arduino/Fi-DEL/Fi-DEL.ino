@@ -3,15 +3,18 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <EEPROM.h>
+#include <FastLED.h>
 
 #include "Configuration.h"
 #include "Page_Script.js.h"
 #include "Pages_html.h"
-#include "LedAnim.h"
-//#include "Animation.h"
+//#include "LedAnim.h"
+#include "Animation.h"
 #include "Page_Style.css.h"
 
-
+#if FASTLED_VERSION < 3001000
+#error "Requires FastLED 3.1 or later; check github for latest code."
+#endif
 
 
 MDNSResponder mdns;
@@ -51,8 +54,12 @@ void setup ( void ) {
   Serial.begin ( 115200 );
   pinMode(BlueLed, OUTPUT);
   digitalWrite(BlueLed, LOW); //Allumage de la LED Bleu du ESP pendant la phase d'init
-  strip.begin();
-  strip.show();
+  //strip.begin();
+  //strip.show();
+
+  FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);
+
 
   /*======================================
               Debut Connection WIFI
@@ -125,12 +132,12 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
-  server.on ( "/rainbow", []()  {
+  server.on ( "/Rainbow", []()  {
     Choix = "Rainbow";
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
-  server.on ( "/rain", []()  {
+  server.on ( "/Rain", []()  {
     Choix = "Rainbow";
     digitalWrite(BlueLed, LOW);
     handleRoot();
@@ -140,13 +147,8 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
-  server.on ( "/theatre", []()  {
-    Choix = "theaterChaseRainbow";
-    digitalWrite(BlueLed, LOW);
-    handleRoot();
-  } );
-  server.on ( "/neige", []()    {
-    Choix = "neige";
+  server.on ( "/Neige", []()    {
+    Choix = "Neige";
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
@@ -160,8 +162,23 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
+  server.on ( "/Nuage", []()    {
+    Choix = "Nuage";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
   server.on ( "/Fire", []()    {
     Choix = "Fire";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
+  server.on ( "/Confetti", []()    {
+    Choix = "Confetti";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
+    server.on ( "/RainbowWithGlitter", []()    {
+    Choix = "RainbowWithGlitter";
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
@@ -170,8 +187,8 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
-  server.on ( "/config", []() {
-    Choix = "config";
+  server.on ( "/Config", []() {
+    Choix = "Config";
     digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/html", config_page );
   } );
@@ -208,23 +225,27 @@ void loop ( void ) {
   mdns.update();
   server.handleClient();
   HexatoDec(Couleur);
-  //  pinMode(BlueLed, OUTPUT);
   digitalWrite(BlueLed, HIGH);
 
-  if (Choix == "neige") {
+  if (Choix == "Neige") {
     SnowSparkle(0x10, 0x10, 0x10, 100, random(200, 1000));
-  } else if (Choix == "theaterChaseRainbow") {
-    theaterChaseRainbow(50, &theaterChaseRainbowIndex);
   } else if (Choix == "Rainbow") {
-    rainbow(500, &rainbowIndex);
+    Rainbow(500, &RainbowIndex);
+  } else if (Choix == "RainbowWithGlitter") {
+    RainbowWithGlitter();
   } else if (Choix == "RainbowCycle") {
-    RainbowCycle(&RainbowCycleIndex);
+    RainbowCycle(300, &RainbowCycleIndex);
   } else if (Choix == "Gyro") {
-    LeftToRight(255, 0, 0, 75, 0);
+    LeftToRight(255, 0, 0, 300, 0);
   } else if (Choix == "TwinkleRandom") {
     TwinkleRandom(500, false);
+  } else if (Choix == "Confetti") {
+    Confetti(&ConfettiIndex);
+  } else if (Choix == "Nuage") {
+    Nuage();
   } else if (Choix == "Fire") {
     Fire(1, 1000, 100);
+//    Fire2012(false, 200, 80);
   } else if (Choix == "color") {
 
     if ( Vitesse.toInt() > 0 ) {
@@ -240,6 +261,6 @@ void loop ( void ) {
   if (Couleur != "") {
     //    Serial.println (Couleur);
   }
-
+  FastLED.show();
+  FastLED.delay(1000/FRAMES_PER_SECOND);
 }
-

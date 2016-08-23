@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="Style.css" type="text/css" />
   <title>Fi-Del</title>
   <!-- <script src="SendAll.js"></script> -->
+  <script src="SendAll.js"></script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <!-- <script src="rangeslider.min.js"></script> -->
@@ -29,7 +30,7 @@
   </head>
   <body>
   <a href="/"><svg class="icon icon-reply" Style="position:fixed left:5px top:5px"><use xlink:href="#icon-reply"></use></svg></a>
-  
+
     </body>
 </html>
   )=====";
@@ -74,10 +75,15 @@ const char main_page[] PROGMEM = R"=====(
   <br>
   <a href="/color?couleur=%23000000&vitesse=0"><div class="block-25" style='background-color:Black; width:100%; color:White'>BLACKOUT</div></a>
 
-  <a href="/neige"><div class="block-25" style='background-color:white'>Neige</div></a>
+  <a href="/Neige"><div class="block-25" style='background-color:white'>Neige</div></a>
   <a href="/Gyro"><div class="block-25" style='background-color:red'>Gyro</div></a>
-  <a href="/rainbow"><div class="block-25" id="anirainbow" style='background-color:Orange'>Rainbow</div></a>
-  <a href="/theatre"><div class="block-25" style='background-color:pink'>Rainbow Strobe</div></a>
+  <a href="/Rainbow"><div class="block-25" id="anirainbow" style='background-color:Orange'>Rainbow</div></a>
+  <a href="/RainbowCycle"><div class="block-25" style='background-color:pink'>Rainbow Cycle</div></a>
+
+  <a href="/Fire"><div class="block-25" style='background-color:Orange'>Fire</div></a>
+  <a href="/Confetti"><div class="block-25" style='background-color:grey'>Confetti</div></a>
+  <a href="/Nuage"><div class="block-25" style='background-color:grey'>Nuage</div></a>
+  <a href="/RainbowWithGlitter"><div class="block-25" style='background-color:grey'>RainbowWithGlitter</div></a>
 
   <a href="/color?couleur=%23FFFFFF&vitesse=50"><div class="block-25" style='background-color:white'>Strobe 50ms</div></a>
   <a href="/color?couleur=%23FFFFFF&vitesse=75"><div class="block-25" style='background-color:white'>Strobe 75ms</div></a>

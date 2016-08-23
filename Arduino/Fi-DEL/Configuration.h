@@ -1,7 +1,8 @@
-
 #define BlueLed 2
 
-#define colorSaturation 255
+#define BRIGHTNESS         255
+#define FRAMES_PER_SECOND  120
+
 String Choix = "Fire";
 String Couleur = "";
 String Vitesse = "";
@@ -9,9 +10,9 @@ String Vitesse = "";
 /*========================================
  *        Les INDEX
  =========================================*/
-byte rainbowIndex;
-byte theaterChaseRainbowIndex;
-byte RainbowCycleIndex;
+ byte RainbowIndex;
+ byte RainbowCycleIndex;
+ byte ConfettiIndex;
 
 
 /*=========================================
@@ -20,7 +21,7 @@ byte RainbowCycleIndex;
 const int nbssid = 2; // Nombre SSID dans le tableau
 
 // =========== ATTENTION AUX VIRGULES DU TABLEAU =========
-const char *ssid[] = { 
+const char *ssid[] = {
   "SSID_1",
   "SSID_2"
 };
@@ -34,5 +35,5 @@ byte WifiNotFound   = 0;
 
 boolean ModeWifi_STA = true; // Active point accès Wifi si il ne trouve pas de WIFI
 boolean EtatWifiSec = false;
-#define ACCESS_POINT_NAME  "ESP"        
-#define ACCESS_POINT_PASSWORD  "12345678" 
+#define ACCESS_POINT_NAME  "Fi-Del"
+#define ACCESS_POINT_PASSWORD  "12345678"

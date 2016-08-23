@@ -1,24 +1,26 @@
 # Fi-DEL
-Création de plusieurs Lampes LED connecté au wifi, à l'aide de Wemos D1-mini. Normalement compatible avec d'autre ESP.
+Création de plusieurs Lampes LED connectées au wifi, à l'aide de Wemos D1-mini. Normalement compatibles avec d'autres ESP.
 ![Fi-DEL](https://github.com/Miauto/Fi-DEL/blob/master/images/Fi-DEL.png?raw=true "Fi-DEL")
 
-Le tout piloté par une seul interface Web.
+Le tout piloté par une seule interface Web.
 
 ![Web](https://github.com/Miauto/Fi-DEL/blob/master/images/Web.png?raw=true "Web")
 
 ## Objectifs
   - Des lampes d'ambiance de couleurs.
-  - Pilotable depuis mon smartphone.
-  - Piloté plusieurs à la fois.
+  - Pilotables depuis mon smartphone.
+  - En piloter plusieurs à la fois.
   - Intégrer les différents scripts effect fastled et neopixel.
-   
-## Améliorations Futur
-- [ ] Création de page Html indépendante au code (par fichier sépration).
-- [ ] Séparation des Script d'effet lumières.
-- [ ] Amélioration de l'interface par intégration JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
-- [ ] Utilisé la memoire eeprom pour redemarrer sur le dernier effet utilisé.
-- [ ] Voir pour géré la Led Bleu du ESP
-- [ ] Faire un version en prog dur, sans passer par arduino. Pas de mon niveau (pour le moment :p )
+
+## Améliorations Futures
+- [x] Création de page Html indépendante au code (par fichiers séparés).
+- [x] Séparation des Scripts d'effets lumières.
+- [ ] Amélioration de l'interface par intégration de JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
+- [ ] Utilisation de la memoire eeprom pour redémarrer sur le dernier effet utilisé.
+- [x] Voir pour gérer la Led Bleu du ESP.
+- [ ] Création d'un page de Configuration.
+- [ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )
+- Augmenter la bibliotheque de d'effet.
 
 
 ## Accessoires
@@ -32,22 +34,23 @@ Le tout piloté par une seul interface Web.
 
 ## Réalisation
 
-* Dans le script changé le SSID et MPD (possibilité de mettre 2 SSID)
-* Les démarré puis scanné le résseaux avec fing (android), leur nom netbios devrais apparaitre.
-* puis modifier les noms a la ligne 40 à 44 (mettre autant de ligne que de wemos)
+* Premier temps installer le logiciel [Arduino](https://www.arduino.cc/en/Main/Software)
+* [Configurer](ConfigurerArduino.md).
+* Dans le script changer le SSID et MDP (possibilité de mettre x SSID)
+* Les démarrer puis scanner le réseau avec fing (Android), leur nom netbios devrait apparaître.
+* Modifier les noms de la ligne 40 à 44 (mettre autant de ligne que de wemos)
 * Recharger tous les wemos
-* Raccordé l'ensemble
-* Testé (cela marche avec Chrome 51.0.2704.103)
-    Il ce peut certains ne repondent pas tout de suite. Insciter.
+* Raccorder l'ensemble
+* Tester avec Chrome 51.0.2704.103 + Livebox
+    Il se peut que certains ne répondent pas tout de suite. Insister.
 
 ![Raccordement](https://github.com/Miauto/Fi-DEL/blob/master/images/Raccordement.png?raw=true "Raccordement")
 
-* Soudure de 4 LED ou plus (adapter la variable NbLED) pour former un cercle, toute dos à dos.
-* Soudure de trois fils entre le Wemos et les WS28xx
-* Mettre le tout dans la boule et faire en sorte que les led reste en son centre. tendre un fil de haut en bas pour aider.
+* Souder 4 LED ou plus (adapter la variable NbLED) pour former un cercle, toutes dos à dos.
+* Souder trois fils entre le Wemos et les WS28xx, évité la PIN D4.
+* Mettre le tout dans la boule et faire en sorte que les led reste en son centre. Tendre un fil de haut en bas pour les guider.
 * Let's GO
 
 ## Bugs et gènes
-- La Led bleu du wemos reste allumer.
-- L'ordinateur ou la tablette ne voit pas tout les wemos de suite, insisté, cela vient rapidement.
-- Wifi non reparametrable via le web.
+- L'ordinateur ou la tablette ne voit pas tous les wemos de suite, insister, cela vient rapidement.
+- Wifi non reparamétrable via le web.
