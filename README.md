@@ -1,6 +1,7 @@
 # Fi-DEL
 
-Création de plusieurs Lampes LED connectées au wifi, à l'aide de Wemos D1-mini. Normalement compatibles avec d'autres ESP.
+Création de plusieurs Lampes LED connectées au wifi, à l'aide de Wemos D1-mini. Normalement compatibles avec d'autres ESP8622.
+
 ![Fi-DEL](/images/Fi-DEL.png?raw=true "Fi-DEL")
 
 Le tout piloté par une seule interface Web.
@@ -22,6 +23,15 @@ Le tout piloté par une seule interface Web.
 - [ ] Création d'un page de Configuration.
 - [ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )
 - Augmenter la bibliotheque de d'effet.
+  - Rainbow
+  - Rainbow Cycle
+  - Rainbow Glitter
+  - Rainbow Nuage
+  - TwinkleRandom, couleurs aléatoire à chaque diode
+  - Confetti
+  - Fire (Bougie)
+  - Couleur au choix
+  - Couleur au choix + Stobe
 
 
 ## Accessoires
@@ -48,9 +58,22 @@ Le tout piloté par une seule interface Web.
 ![Raccordement](/images/Raccordement.png?raw=true "Raccordement")
 
 * Souder 4 LED ou plus (adapter la variable NbLED) pour former un cercle, toutes dos à dos.
-* Souder trois fils entre le Wemos et les WS28xx, évité la PIN D4.
+* Souder trois fils entre le Wemos et les WS28xx, évité la PIN D3.
 * Mettre le tout dans la boule et faire en sorte que les led reste en son centre. Tendre un fil de haut en bas pour les guider.
 * Let's GO
+
+## Utilisation
+
+Avec un navigateur on peut controler les LED mais on peut aussi avec des logiciels qui font des requettes http.
+- Windows
+  - ...
+- Android
+  - [HTTP Request Widget](https://play.google.com/store/apps/details?id=com.idlegandalf.httprequestwidget)
+- OSX
+  - ...
+- Domotique
+  - [Jeedom](https://www.jeedom.com/forum/viewtopic.php?f=84&t=18819)
+
 
 ## Bugs et gènes
 - L'ordinateur ou la tablette ne voit pas tous les wemos de suite, insister, cela vient rapidement.
