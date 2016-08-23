@@ -1,10 +1,11 @@
 # Fi-DEL
+Voir la [Beta](/tree/Beta)
 Création de plusieurs Lampes LED connectées au wifi, à l'aide de Wemos D1-mini. Normalement compatibles avec d'autres ESP.
-![Fi-DEL](https://github.com/Miauto/Fi-DEL/blob/master/images/Fi-DEL.png?raw=true "Fi-DEL")
+![Fi-DEL](/images/Fi-DEL.png?raw=true "Fi-DEL")
 
 Le tout piloté par une seule interface Web.
 
-![Web](https://github.com/Miauto/Fi-DEL/blob/master/images/Web.png?raw=true "Web")
+![Web](/images/Web.png?raw=true "Web")
 
 ## Objectifs
   - Des lampes d'ambiance de couleurs.
@@ -12,7 +13,7 @@ Le tout piloté par une seule interface Web.
   - En piloter plusieurs à la fois.
   - Intégrer les différents scripts effect fastled et neopixel.
 
-## Améliorations Futures
+## Améliorations Futures (Voir la [Beta](/tree/Beta)) 
 - [x] Création de page Html indépendante au code (par fichiers séparés).
 - [x] Séparation des Scripts d'effets lumières.
 - [ ] Amélioration de l'interface par intégration de JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
@@ -44,7 +45,7 @@ Le tout piloté par une seule interface Web.
 * Tester avec Chrome 51.0.2704.103 + Livebox
     Il se peut que certains ne répondent pas tout de suite. Insister.
 
-![Raccordement](https://github.com/Miauto/Fi-DEL/blob/master/images/Raccordement.png?raw=true "Raccordement")
+![Raccordement](/images/Raccordement.png?raw=true "Raccordement")
 
 * Souder 4 LED ou plus (adapter la variable NbLED) pour former un cercle, toutes dos à dos.
 * Souder trois fils entre le Wemos et les WS28xx, évité la PIN D4.
