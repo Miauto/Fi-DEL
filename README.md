@@ -20,7 +20,9 @@ Le tout piloté par une seule interface Web.
 - [ ] Amélioration de l'interface par intégration de JS. [Exemple](http://www.jqueryrain.com/?vMUktPIX "Exemple").
 - [ ] Utilisation de la memoire eeprom pour redémarrer sur le dernier effet utilisé.
 - [x] Voir pour gérer la Led Bleu du ESP.
-- [ ] Création d'un page de Configuration.
+- Création d'un page de Configuration.
+  - [x] Wifi
+  - [ ] ...
 - [ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )
 - Augmenter la bibliotheque de d'effet.
   - Rainbow
@@ -47,9 +49,11 @@ Le tout piloté par une seule interface Web.
 
 * Premier temps installer le logiciel [Arduino](https://www.arduino.cc/en/Main/Software)
 * [Configurer](ConfigurerArduino.md).
-* Dans le script changer le SSID et MDP (possibilité de mettre x SSID)
-* Les démarrer puis scanner le réseau avec fing (Android), leur nom netbios devrait apparaître.
-* Modifier les noms de la ligne 40 à 44 (mettre autant de ligne que de wemos)
+* Au premier demarrage il vas crée son propore WIFI
+  * Fi-DEL avec mot de passe 12345678
+  * IP/Config renseigner le SSID et MDP
+* Scanner le réseau avec fing (Android), leur nom netbios devrait apparaître.
+* Page_Script.js.h Ligne 4, Modifier les noms ou IP (mettre autant de ligne que de wemos)
 * Recharger tous les wemos
 * Raccorder l'ensemble
 * Tester avec Chrome 51.0.2704.103 + Livebox
@@ -77,4 +81,3 @@ Avec un navigateur on peut controler les LED mais on peut aussi avec des logicie
 
 ## Bugs et gènes
 - L'ordinateur ou la tablette ne voit pas tous les wemos de suite, insister, cela vient rapidement.
-- Wifi non reparamétrable via le web.
