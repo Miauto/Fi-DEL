@@ -35,13 +35,11 @@ body {
 .block-100 {
 
 }
+
 /* ----------------------------------- */
 <!-- #########  ANIMATION  ######### -->
 /* ----------------------------------- */
-.anirainbow {
-    width: 100px;
-    height: 100px;
-    background-color: red;
+#anirainbow {
     -webkit-animation-name: example; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 10s; /* Chrome, Safari, Opera */
     animation-name: example;
@@ -125,11 +123,6 @@ body {
   width: 20px;
   min-height: 150px;
   max-height: 100%;
-}
-
-.rangeslider--disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
-  opacity: 0.4;
 }
 
 .rangeslider__fill {

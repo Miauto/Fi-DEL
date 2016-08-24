@@ -1,24 +1,19 @@
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
 #include <EEPROM.h>
 #include <FastLED.h>
 
 #include "Configuration.h"
 #include "Page_Script.js.h"
 #include "Pages_html.h"
-//#include "LedAnim.h"
 #include "Animation.h"
 #include "Page_Style.css.h"
+#include "SetupWifi.h"
 
 #if FASTLED_VERSION < 3001000
 #error "Requires FastLED 3.1 or later; check github for latest code."
 #endif
 
 
-MDNSResponder mdns;
-ESP8266WebServer server ( 80 );
+
 
 
 void handleRoot() {
@@ -30,7 +25,15 @@ void handleRoot() {
     if (server.argName (i) == "vitesse" ) {
       Vitesse = server.arg(i);
     }
+    if (server.argName (i) == "Hue" ) {
+      Hue = server.arg(i).toInt();
+    }
   }
+  /*
+    Couleur = server.arg("couleur");
+    Vitesse = server.arg("vitesse");
+    Hue = server.arg("Hue").toInt();
+  */
 }
 void handleNotFound() {
   String message = "File Not Found\n\n";
@@ -54,78 +57,112 @@ void setup ( void ) {
   Serial.begin ( 115200 );
   pinMode(BlueLed, OUTPUT);
   digitalWrite(BlueLed, LOW); //Allumage de la LED Bleu du ESP pendant la phase d'init
-  //strip.begin();
-  //strip.show();
+
+  /*//////////////////////
+            EEPROM
+  *//////////////////////
+  EEPROM.begin(512);
+  delay(10);
+  Serial.println();
+  Serial.println();
+  // read eeprom for ssid and pass
+  Serial.println("Lecture EEPROM");
+  String esid;
+  for (int i = 0; i < 32; ++i)
+  {
+    esid += char(EEPROM.read(i));
+  }
+  Serial.print("SSID: ");
+  Serial.println(esid);
+  String epass = "";
+  for (int i = 32; i < 96; ++i)
+  {
+    epass += char(EEPROM.read(i));
+  }
+  Serial.print("PASS: ");
+  Serial.println(epass);
 
   FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(BRIGHTNESS);
-
 
   /*======================================
               Debut Connection WIFI
     ======================================*/
 
-  WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
-  int SSID_N = 0;
-  Serial.println ( "" );
-  Serial.println ( "Connection au SSID : " );
-  Serial.print ( ssid[SSID_N] );
-  WiFi.begin ( ssid[SSID_N], password[SSID_N] );
-  Serial.println ( "" );
-  // Wait for connection
-  while ( WiFi.status() != WL_CONNECTED && WifiNotFound <= 3) {
-    delay ( 500 );
-    Serial.print ( "." );
-    Serial.print ( ErrComm );
-    ErrComm = ErrComm + 1;
-    if (ErrComm > 15) {
-      Serial.println ( "" );
-      Serial.println ( "SSID non present" );
-      SSID_N++;
-      if (SSID_N > (nbssid - 1) ) {
-        SSID_N = 0;
-        Blink(255, 0, 0, 100, 100, 3);
-        Blink(0, 0, 255, 100, 100, 1); // clignotte 3 fois rouge et 1 bleu pour erreur wifi
-        WifiNotFound = WifiNotFound + 1;
-      }
-      ErrComm = 0;
-      Serial.println ( "" );
-      Serial.println ( "Connection au SSID : " );
-      Serial.print ( ssid[SSID_N] );
-      Serial.println ( "" );
-      WiFi.begin ( ssid[SSID_N], password[SSID_N] );
+  if ( esid.length() > 1 ) {
+    WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+    WiFi.begin(esid.c_str(), epass.c_str());
+    if (testWifi()) {
+      launchWeb(0);
+    } else {
+      setupAP();
     }
+  } else {
+    setupAP();
   }
-  if ( WiFi.status() == WL_CONNECTED ) {
+/*
+    WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+    int SSID_N = 0;
     Serial.println ( "" );
-    Serial.print ( "Connecte a " );
-    Serial.println ( ssid[SSID_N] );
-    Serial.print ( "IP Adresse: " );
-    Serial.println ( WiFi.localIP() );
-  }
-
-  if ( WifiNotFound > 3 && ModeWifi_STA == true) {
+    Serial.println ( "Connection au SSID : " );
+    Serial.print ( ssid[SSID_N] );
+    WiFi.begin ( ssid[SSID_N], password[SSID_N] );
     Serial.println ( "" );
-    Serial.println ( "Creation de point Wifi " );
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP( ACCESS_POINT_NAME , ACCESS_POINT_PASSWORD);
-    Serial.println ( "" );
-    Serial.print ( "SSID : " );
-    Serial.println ( ACCESS_POINT_NAME );
-    Serial.print ( "PASSWORD : " );
-    Serial.println ( ACCESS_POINT_PASSWORD );
-    Serial.print ( "IP Adresse: " );
-    Serial.println ( WiFi.localIP() );
-  }
+    // Wait for connection
+    while ( WiFi.status() != WL_CONNECTED && WifiNotFound <= 3) {
+      delay ( 500 );
+      Serial.print ( "." );
+      Serial.print ( ErrComm );
+      ErrComm = ErrComm + 1;
+      if (ErrComm > 15) {
+        Serial.println ( "" );
+        Serial.println ( "SSID non present" );
+        SSID_N++;
+        if (SSID_N > (nbssid - 1) ) {
+          SSID_N = 0;
+          Blink(255, 0, 0, 100, 100, 3);
+          Blink(0, 0, 255, 100, 100, 1); // clignotte 3 fois rouge et 1 bleu pour erreur wifi
+          WifiNotFound = WifiNotFound + 1;
+        }
+        ErrComm = 0;
+        Serial.println ( "" );
+        Serial.println ( "Connection au SSID : " );
+        Serial.print ( ssid[SSID_N] );
+        Serial.println ( "" );
+        WiFi.begin ( ssid[SSID_N], password[SSID_N] );
+      }
+    }
+    if ( WiFi.status() == WL_CONNECTED ) {
+      Serial.println ( "" );
+      Serial.print ( "Connecte a " );
+      Serial.println ( ssid[SSID_N] );
+      Serial.print ( "IP Adresse: " );
+      Serial.println ( WiFi.localIP() );
+    }
+
+    if ( WifiNotFound > 3 && ModeWifi_STA == true) {
+      Serial.println ( "" );
+      Serial.println ( "Creation de point Wifi " );
+      WiFi.mode(WIFI_AP);
+      WiFi.softAP( ACCESS_POINT_NAME , ACCESS_POINT_PASSWORD);
+      Serial.println ( "" );
+      Serial.print ( "SSID : " );
+      Serial.println ( ACCESS_POINT_NAME );
+      Serial.print ( "PASSWORD : " );
+      Serial.println ( ACCESS_POINT_PASSWORD );
+      Serial.print ( "IP Adresse: " );
+      Serial.println ( WiFi.localIP() );
+    }
 
 
-
+  */
   /*======================================
               Fin Connection WIFI
     ======================================*/
 
-  if ( mdns.begin ( "esp8266", WiFi.localIP() ) ) {
+  if ( mdns.begin ( "Fi-DEL", WiFi.localIP() ) ) {
     Serial.println ( "MDNS responder started" );
   }
   server.on ( "/", []() {
@@ -177,8 +214,13 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
-    server.on ( "/RainbowWithGlitter", []()    {
+  server.on ( "/RainbowWithGlitter", []()    {
     Choix = "RainbowWithGlitter";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
+  server.on ( "/Sinelon", []()    {
+    Choix = "Sinelon";
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
@@ -236,31 +278,37 @@ void loop ( void ) {
   } else if (Choix == "RainbowCycle") {
     RainbowCycle(300, &RainbowCycleIndex);
   } else if (Choix == "Gyro") {
-    LeftToRight(255, 0, 0, 300, 0);
+    LeftToRight(255, 0, 0, 300, 0, &SinelonIndex);
   } else if (Choix == "TwinkleRandom") {
-    TwinkleRandom(500, false);
+    TwinkleRandom(false, SATURATION, BRIGHTNESS);
   } else if (Choix == "Confetti") {
     Confetti(&ConfettiIndex);
+  } else if (Choix == "Sinelon") {
+    Sinelon(&SinelonIndex);
   } else if (Choix == "Nuage") {
     Nuage();
   } else if (Choix == "Fire") {
     Fire(1, 1000, 100);
-//    Fire2012(false, 200, 80);
+    //    Fire2012(false, 200, 80);
   } else if (Choix == "color") {
 
     if ( Vitesse.toInt() > 0 ) {
+      //Serial.println ("Strobe");
       Strobe(Rgb, rGb, rgB, 1, Vitesse.toInt(), 0);
     } else {
-      setAll(Rgb, rGb, rgB);
+      setAllHue( Hue, SATURATION, BRIGHTNESS);
+      //Serial.println (Hue);
+      //setAll(rgb.r, rgb.g, rgb.b);
     }
   }
 
   if (Choix != "") {
-    //    Serial.println (Choix);
+    //Serial.println (Choix);
   }
   if (Couleur != "") {
-    //    Serial.println (Couleur);
+    Serial.println (Couleur);
   }
-  FastLED.show();
-  FastLED.delay(1000/FRAMES_PER_SECOND);
+  if (Hue > 0 ) {
+    //Serial.println (Hue);
+  }
 }

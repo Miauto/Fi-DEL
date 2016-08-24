@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="Style.css" type="text/css" />
   <title>Fi-Del</title>
   <!-- <script src="SendAll.js"></script> -->
-  <script src="SendAll.js"></script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <!-- <script src="rangeslider.min.js"></script> -->
@@ -30,7 +29,8 @@
   </head>
   <body>
   <a href="/"><svg class="icon icon-reply" Style="position:fixed left:5px top:5px"><use xlink:href="#icon-reply"></use></svg></a>
-
+<br>
+  <form method='get' action='setting'><label>SSID: </label><input name='ssid' length=32><label>MDP: </label><input name='pass' length=64><input type='submit'></form>
     </body>
 </html>
   )=====";
@@ -70,40 +70,55 @@ const char main_page[] PROGMEM = R"=====(
 
   </head>
   <body>
-  <a href="/config"><svg class="icon icon-spaceinvaders" Style="position:fixed left:5px top:5px"><use xlink:href="#icon-spaceinvaders"></use></svg></a>
+  <a href="/Config"><svg class="icon icon-spaceinvaders" Style="position:fixed left:5px top:5px"><use xlink:href="#icon-spaceinvaders"></use></svg></a>
   <div style="display:block; width:100%; font-size:2em; text-align:center; color:white">Fi-Del</div>
   <br>
   <a href="/color?couleur=%23000000&vitesse=0"><div class="block-25" style='background-color:Black; width:100%; color:White'>BLACKOUT</div></a>
 
   <a href="/Neige"><div class="block-25" style='background-color:white'>Neige</div></a>
   <a href="/Gyro"><div class="block-25" style='background-color:red'>Gyro</div></a>
-  <a href="/Rainbow"><div class="block-25" id="anirainbow" style='background-color:Orange'>Rainbow</div></a>
+  <a href="/Rainbow"><div class="block-25" id="anirainbow">Rainbow</div></a>
   <a href="/RainbowCycle"><div class="block-25" style='background-color:pink'>Rainbow Cycle</div></a>
 
   <a href="/Fire"><div class="block-25" style='background-color:Orange'>Fire</div></a>
   <a href="/Confetti"><div class="block-25" style='background-color:grey'>Confetti</div></a>
   <a href="/Nuage"><div class="block-25" style='background-color:grey'>Nuage</div></a>
-  <a href="/RainbowWithGlitter"><div class="block-25" style='background-color:grey'>RainbowWithGlitter</div></a>
+  <a href="/RainbowWithGlitter"><div class="block-25" style='background-color:grey'>Rainbow + Glitter</div></a>
+
+  <a href="/TwinkleRandom"><div class="block-25" style='background-color:grey'>TwinkleRandom</div></a>
+  <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
+  <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
+  <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
 
   <a href="/color?couleur=%23FFFFFF&vitesse=50"><div class="block-25" style='background-color:white'>Strobe 50ms</div></a>
   <a href="/color?couleur=%23FFFFFF&vitesse=75"><div class="block-25" style='background-color:white'>Strobe 75ms</div></a>
   <a href='/color?couleur=%23FFFFFF&vitesse=100'><div class="block-25" style='background-color:white'>Strobe 100ms</div></a>
-  <a href='/color?couleur=%23FFFFFF&vitesse=0'><div class="block-25" style='background-color:white'>BLANC</div></a>
+  <a href='/color?couleur=%23FFFFFF&vitesse=0'><div class="block-25" style='background-color:white'>Fixe</div></a>
 
-  <a href='/color?couleur=%230000FF&vitesse=50'><div class="block-25" style='background-color:blue'>Strobe 50ms</div></a>
-  <a href='/color?couleur=%230000FF&vitesse=75'><div class="block-25" style='background-color:blue'>Strobe 75ms</div></a>
-  <a href='/color?couleur=%230000FF&vitesse=100'><div class="block-25" style='background-color:blue'>Strobe 100ms</div></a>
-  <a href='/color?couleur=%230000FF&vitesse=0'><div class="block-25" style='background-color:blue'>BLEU</div></a>
+  <form action="/color" method="get" oninput="y.value=parseInt(Hue.value)">
+  <br>
+  <br>
+    <h1>Hue:  <output name="y" for="Hue">0</output></h1>
+  <br>
+    <input type="range" max="255" min="0" step="1" name="Hue" data-rangeslider>
+  <br>
+    <button style="width:50%;height:6em;border-radius:10px">envoyer</button>
+  </form>
 
-  <a href='/color?couleur=%23FF0000&vitesse=50'><div class="block-25" style='background-color:Red'>Strobe 50ms</div></a>
-  <a href='/color?couleur=%23FF0000&vitesse=75'><div class="block-25" style='background-color:Red'>Strobe 75ms</div></a>
-  <a href='/color?couleur=%23FF0000&vitesse=100'><div class="block-25" style='background-color:Red'>Strobe 100ms</div></a>
-  <a href='/color?couleur=%23FF0000&vitesse=0'><div class="block-25" style='background-color:Red'>ROUGE</div></a>
+  <a href='/color?couleur=%230000FF'><div class="block-25" style='background-color:Blue'>Bleu</div></a>
+  <a href='/color?couleur=%23FF0000'><div class="block-25" style='background-color:Red'>Rouge</div></a>
+  <a href='/color?couleur=%2300FF00'><div class="block-25" style='background-color:Green'>Vert</div></a>
+  <a href='/color?couleur=%23FFFF00'><div class="block-25" style='background-color:Yellow'>Jaune</div></a>
 
-  <a href='/color?couleur=%2300FF00&vitesse=50'><div class="block-25" style='background-color:green'>Strobe 50ms</div></a>
-  <a href='/color?couleur=%2300FF00&vitesse=75'><div class="block-25" style='background-color:green'>Strobe 75ms</div></a>
-  <a href='/color?couleur=%2300FF00&vitesse=100'><div class="block-25" style='background-color:green'>Strobe 100ms</div></a>
-  <a href='/color?couleur=%2300FF00&vitesse=0'><div class="block-25" style='background-color:green'>VERT</div></a>
+  <a href='/color?couleur=%23DA70D6'><div class="block-25" style='background-color:#DA70D6'>Orchid</div></a>
+  <a href='/color?couleur=%23FFD700'><div class="block-25" style='background-color:#FFD700'>Or</div></a>
+  <a href='/color?couleur=%23E6E6FA'><div class="block-25" style='background-color:#E6E6FA'>Lavande</div></a>
+  <a href='/color?couleur=%23808000'><div class="block-25" style='background-color:#808000'>Olive</div></a>
+
+  <a href='/color?couleur=%23800080'><div class="block-25" style='background-color:#800080'>Violet</div></a>
+  <a href='/color?couleur=%23CC5533'><div class="block-25" style='background-color:#CC5533'>Plaid</div></a>
+  <a href='/color?couleur=%23FA8072'><div class="block-25" style='background-color:#FA8072'>Saumon</div></a>
+  <a href='/color?couleur=%2340E0D0'><div class="block-25" style='background-color:#40E0D0'>Turquoise</div></a>
 
   <br/>
 
