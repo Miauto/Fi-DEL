@@ -84,4 +84,5 @@ Avec un navigateur on peut controler les LED mais on peut aussi avec des logicie
 
 ## Autres Exemples sur Projet Similaires
  [easydomoticz.com Lampe Informative RGB WIFI](http://easydomoticz.com/forum/viewtopic.php?f=24&t=1834)
+ 
  [jeedom.com Tuto réaliser une lampe Wifi](https://www.jeedom.com/forum/viewtopic.php?f=84&t=18819)
