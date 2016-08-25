@@ -7,9 +7,6 @@
 CRGB leds[NUM_LEDS];          // Tableau de leds
 CRGBSet ledSet(leds, NUM_LEDS);    //Setup FastLED
 
-byte Rgb = 0;
-byte rGb = 0;
-byte rgB = 0;
 
 void setPixel(int Pixel, byte red, byte green, byte blue) {
 #ifdef ADAFRUIT_NEOPIXEL_H
@@ -52,9 +49,7 @@ void setAllHue(uint8_t gHue, uint8_t Sat, uint8_t Bri) {
 }
 
 void Blackout (){
-    for ( int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CHSV( 0, 0, 0);
-  }
+  fadeToBlackBy( leds, NUM_LEDS, 50);
   FastLED.show();
 }
 
