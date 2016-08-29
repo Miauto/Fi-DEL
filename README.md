@@ -50,6 +50,7 @@ Le tout piloté par une seule interface Web.
 
 * Premier temps installer le logiciel [Arduino](https://www.arduino.cc/en/Main/Software)
 * [Configurer](ConfigurerArduino.md).
+* Télécharger la derniere version. [Latest release](https://github.com/Miauto/Fi-DEL/releases)
 * Au premier demarrage il vas crée son propore WIFI
   * Fi-DEL avec mot de passe 12345678
   * IP/Config renseigner le SSID et MDP
