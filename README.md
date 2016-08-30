@@ -24,7 +24,7 @@ Le tout piloté par une seule interface Web.
   - [x] Wifi
   - [ ] ...
 - [ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )
-- [ ] Mise a jour par interface Web via un fichier
+- [x] Mise a jour par interface Web via un fichier
 - Augmenter la bibliotheque de d'effet.
   - Rainbow
   - Rainbow Cycle
