@@ -73,11 +73,11 @@ const char main_page[] PROGMEM = R"=====(
   <a href="/Config"><svg class="icon icon-spaceinvaders" Style="position:fixed left:5px top:5px"><use xlink:href="#icon-spaceinvaders"></use></svg></a>
   <div style="display:block; width:100%; font-size:2em; text-align:center; color:white">Fi-Del</div>
   <br>
-  <a href="/color?couleur=%23000000&vitesse=0"><div class="block-25" style='background-color:Black; width:100%; color:White'>BLACKOUT</div></a>
+  <a href="/Blackout"><div class="block-25" style='background-color:Black; width:100%; color:White'>BLACKOUT</div></a>
 
   <a href="/Neige"><div class="block-25" style='background-color:white'>Neige</div></a>
   <a href="/Gyro"><div class="block-25" style='background-color:red'>Gyro</div></a>
-  <a href="/Rainbow"><div class="block-25" id="anirainbow">Rainbow</div></a>
+  <a href="/Rainbow"><div class="block-25" id="anirainbow" style="background-color:orange">Rainbow</div></a>
   <a href="/RainbowCycle"><div class="block-25" style='background-color:pink'>Rainbow Cycle</div></a>
 
   <a href="/Fire"><div class="block-25" style='background-color:Orange'>Fire</div></a>
@@ -90,20 +90,36 @@ const char main_page[] PROGMEM = R"=====(
   <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
   <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
 
-  <a href="/color?couleur=%23FFFFFF&vitesse=50"><div class="block-25" style='background-color:white'>Strobe 50ms</div></a>
-  <a href="/color?couleur=%23FFFFFF&vitesse=75"><div class="block-25" style='background-color:white'>Strobe 75ms</div></a>
-  <a href='/color?couleur=%23FFFFFF&vitesse=100'><div class="block-25" style='background-color:white'>Strobe 100ms</div></a>
-  <a href='/color?couleur=%23FFFFFF&vitesse=0'><div class="block-25" style='background-color:white'>Fixe</div></a>
+  <a href="/color?vitesse=50"><div class="block-25" style='background-color:white'>Strobe 50ms</div></a>
+  <a href="/color?vitesse=75"><div class="block-25" style='background-color:white'>Strobe 75ms</div></a>
+  <a href='/color?vitesse=100'><div class="block-25" style='background-color:white'>Strobe 100ms</div></a>
+  <a href='/color?vitesse=0'><div class="block-25" style='background-color:white'>Fixe</div></a>
+
+ <center>
+ <form action="/color" method="get" oninput="x.value=parseInt(Hue.value)">
+   <h1>Vitesse:  <output name="x" for="vitesse">0</output></h1>
+  <input type="range" max="250" min="0" step="50" name="vitesse" data-rangeslider>
+  <br>
+  <button style="width:50%;height:6em;border-radius:10px">envoyer</button>
+  </form>
 
   <form action="/color" method="get" oninput="y.value=parseInt(Hue.value)">
-  <br>
-  <br>
     <h1>Hue:  <output name="y" for="Hue">0</output></h1>
+  <div class="block-hue" style="background-color:red"></div>
+  <div class="block-hue" style="background-color:orange"></div>
+  <div class="block-hue" style="background-color:yellow"></div>
+  <div class="block-hue" style="background-color:green"></div>
+  <div class="block-hue" style="background-color:aqua"></div>
+  <div class="block-hue" style="background-color:blue"></div>
+  <div class="block-hue" style="background-color:purple"></div>
+  <div class="block-hue" style="background-color:pink"></div>
+  <div class="block-hue" style="background-color:red"></div>
   <br>
     <input type="range" max="255" min="0" step="1" name="Hue" data-rangeslider>
   <br>
     <button style="width:50%;height:6em;border-radius:10px">envoyer</button>
   </form>
+  </center>
 
   <a href='/color?couleur=%230000FF'><div class="block-25" style='background-color:Blue'>Bleu</div></a>
   <a href='/color?couleur=%23FF0000'><div class="block-25" style='background-color:Red'>Rouge</div></a>
@@ -125,26 +141,11 @@ const char main_page[] PROGMEM = R"=====(
   <center>
   <form action="/color" method="get" oninput="x.value=parseInt(vitesse.value)">
   <input type="color" style="width:50%;height:6em;border-radius:10px" name="couleur" value=#ffffff>
-  <br>
-  <br>
-  <h1>Vitesse:  <output name="x" for="vitesse">0</output></h1>
-
-  <br>
-  <input type="range" max="250" min="0" step="50" name="vitesse" data-rangeslider>
-  <br>
   <button style="width:50%;height:6em;border-radius:10px">envoyer</button>
   </form>
 
   </center>
 
-  <div class="color-sample"></div>
-  <div class="result">
-    <span id="rgb"></span> |
-    <span id="hex"></span>
-  </div>
-    <div>
-  <canvas width="900" height="80" id="rainbow"></canvas><script src="Picker.js"></script>
-    </div>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="/rangeslider.min.js"></script>
   <script>

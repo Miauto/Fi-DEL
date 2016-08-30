@@ -12,7 +12,8 @@
 #error "Requires FastLED 3.1 or later; check github for latest code."
 #endif
 
-
+uint8_t mBRIGHTNESS ;
+uint8_t mSATURATION ;
 
 
 
@@ -27,6 +28,12 @@ void handleRoot() {
     }
     if (server.argName (i) == "Hue" ) {
       Hue = server.arg(i).toInt();
+    }
+    if (server.argName (i) == "Lumiere" ) {
+      mBRIGHTNESS = server.argName (i).toInt();
+    }
+    if (server.argName (i) == "Saturation" ) {
+      mSATURATION = server.argName (i).toInt();
     }
   }
   /*
@@ -89,16 +96,16 @@ void setup ( void ) {
               Debut Connection WIFI
     ======================================*/
 
-  if ( esid.length() > 1 ) {
+  if ( esid.length() > 1 ) { //EEPROM NON VIDE
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
-    WiFi.begin(esid.c_str(), epass.c_str());
-    if (testWifi()) {
+    WiFi.begin(esid.c_str(), epass.c_str()); //TEST de la connection
+    if (testWifi()) {   // SI la connection est bonne alors on lance le serveur
       launchWeb(0);
-    } else {
+    } else {            // SINON creation d'un reseau wifi
       setupAP();
     }
-  } else {
+  } else { //EEPROM VIDE
     setupAP();
   }
 /*
@@ -162,9 +169,8 @@ void setup ( void ) {
               Fin Connection WIFI
     ======================================*/
 
-  if ( mdns.begin ( "Fi-DEL", WiFi.localIP() ) ) {
-    Serial.println ( "MDNS responder started" );
-  }
+  MDNSConnect();
+
   server.on ( "/", []() {
     digitalWrite(BlueLed, LOW);
     handleRoot();
@@ -224,6 +230,11 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
+  server.on ( "/Blackout", []()    {
+    Choix = "Blackout";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
   server.on ( "/color", []()    {
     Choix = "color";
     digitalWrite(BlueLed, LOW);
@@ -246,16 +257,13 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/plain", PAGE_rangeslider_min_js );
   } );
-  server.on ( "/Picker.js", []() {
-    digitalWrite(BlueLed, LOW);
-    server.send ( 200, "text/plain", PAGE_Picker_js );
-  } );
   server.on ( "/Style.css", []() {
     digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/css", PAGE_Style_css );
   } );
   server.onNotFound ( handleNotFound );
   server.begin();
+  httpUpdater.setup(&server);
   Serial.println ( "HTTP server started" );
   initLED();
   Serial.println ( "Init Finish" );
@@ -266,7 +274,6 @@ void loop ( void ) {
 
   mdns.update();
   server.handleClient();
-  HexatoDec(Couleur);
   digitalWrite(BlueLed, HIGH);
 
   if (Choix == "Neige") {
@@ -290,23 +297,34 @@ void loop ( void ) {
   } else if (Choix == "Fire") {
     Fire(1, 1000, 100);
     //    Fire2012(false, 200, 80);
+  } else if (Choix == "Blackout") {
+    Blackout();
   } else if (Choix == "color") {
-
-    if ( Vitesse.toInt() > 0 ) {
-      //Serial.println ("Strobe");
-      Strobe(Rgb, rGb, rgB, 1, Vitesse.toInt(), 0);
-    } else {
+    if (Couleur != "") {
+      Serial.println (Couleur);
+      HexatoDec(Couleur);
+      Couleur = "";
+    } else if (Hue > 0) {
+      Serial.println (Hue);
       setAllHue( Hue, SATURATION, BRIGHTNESS);
-      //Serial.println (Hue);
-      //setAll(rgb.r, rgb.g, rgb.b);
-    }
+      Rgb = leds[1].r;
+      rGb = leds[1].g;
+      rgB = leds[1].b;
+      Hue = 0;
+    } else if ( Vitesse.toInt() > 0 ) {
+      Strobe(Rgb, rGb, rgB, 1, Vitesse.toInt(), 0);
+      Serial.println (Vitesse);
+    } else
+    setAll(Rgb, rGb, rgB);
+    Serial.println (Rgb);
+    Serial.println (rGb);
+    Serial.println (rgB);
   }
 
   if (Choix != "") {
     //Serial.println (Choix);
   }
   if (Couleur != "") {
-    Serial.println (Couleur);
   }
   if (Hue > 0 ) {
     //Serial.println (Hue);

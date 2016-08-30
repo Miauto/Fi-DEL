@@ -1,12 +1,13 @@
 
 const char PAGE_SendAll_js[] PROGMEM = R"=====(
 var nodes = [
+    'http://192.168.0.107',
     'http://espe0c2f1',
     'http://espe0bfad',
     'http://esp001507',
     'http://espe0c786',
-    'http://esp104d81',
-    'http://ESP_104d81',
+    'http://esp_00155f',
+    'http://esp104d81'
 ]
 function sendReq(path, params) {
     var oReq = new XMLHttpRequest();
@@ -598,7 +599,7 @@ $('#rainbow').click(function(event) {
   var r = imgData[0];
   var g = imgData[1];
   var b = imgData[2];
-  var rgb = 'RGB(' + r + ', ' + g + ', ' + b + ')'; 
+  var rgb = 'RGB(' + r + ', ' + g + ', ' + b + ')';
   var hex = '#' + rgbToHex(r,g,b);
   $('.color-sample').css("background-color", hex );
   hex = 'HEX ' + hex;
@@ -617,4 +618,3 @@ function toHex(n) {
 }
 
 )=====";
-

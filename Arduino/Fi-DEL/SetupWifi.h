@@ -1,10 +1,13 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+#include <ESP8266HTTPUpdateServer.h>
 
 ESP8266WebServer server ( 80 );
 MDNSResponder mdns;
+ESP8266HTTPUpdateServer httpUpdater;
 
+#define HOST_NAME  "Fi-Del"
 #define ACCESS_POINT_NAME  "Fi-Del"
 #define ACCESS_POINT_PASSWORD  "12345678"
 String Statuses[] =  { "WL_IDLE_STATUS=0",
@@ -18,6 +21,7 @@ String Statuses[] =  { "WL_IDLE_STATUS=0",
 String st;
 String content;
 int statusCode;
+
 
 bool testWifi(void) {
   int c = 0;
@@ -162,4 +166,16 @@ void setupAP(void) {
   Serial.println("softap");
   launchWeb(1);
   Serial.println("over");
+}
+
+// MDNS
+void MDNSConnect() {
+  if (!MDNS.begin(HOST_NAME)) {
+   Serial.println("Error setting up MDNS responder!");
+    while (1) {
+      delay(1000);
+    }
+  }
+  Serial.println("mDNS responder started");
+  MDNS.addService("http", "tcp", 80);
 }

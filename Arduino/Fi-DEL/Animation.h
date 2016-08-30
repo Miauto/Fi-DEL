@@ -1,5 +1,5 @@
 #define DATA_PIN    0         // Borne Data
-#define NUM_LEDS    10         // Nombre de Leds
+#define NUM_LEDS    24         // Nombre de Leds
 
 #define COLOR_ORDER GRB       // Ordre des couleurs
 #define LED_TYPE    WS2812B   // Types des Leds

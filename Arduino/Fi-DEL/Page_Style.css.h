@@ -32,12 +32,15 @@ body {
   border-radius: 10px
 }
 
-.block-100 {
-
+.block-hue {
+  display  : inline-block ;
+  float    : left         ;
+  width    : 11.11%       ;
+  height   : 20px
 }
 
 /* ----------------------------------- */
-/*-- #########  ANIMATION  ######### --*/
+<!-- #########  ANIMATION  ######### -->
 /* ----------------------------------- */
 #anirainbow {
     -webkit-animation-name: example; /* Chrome, Safari, Opera */
@@ -65,7 +68,7 @@ body {
     100% {background-color: red;}
 }
 /* -------------------------------------- */
-/*-- #########  FIN ANIMATION  ######### -*/
+<!-- #########  FIN ANIMATION  ######### -->
 /* -------------------------------------- */
 #footer_wrap {
     background: #212121;
@@ -78,14 +81,6 @@ body {
   max-width: 640px;
   padding: 20px 10px;
   margin: 0 auto;
-}
-
-#rainbow {
-  width: 95%;
-  height: 80px;
-  &:hover {
-    cursor: crosshair;
-  }
 }
 
 .color-sample {
