@@ -34,6 +34,7 @@ Le tout piloté par une seule interface Web.
   - [x] Wifi
   - [ ] ...
 - [ ] Faire une version en programmation dure, sans passer par arduino. Pas de mon niveau (pour le moment :p )
+- [x] Mise a jour par interface Web via un fichier
 - Augmenter la bibliotheque de d'effet.
   - Rainbow
   - Rainbow Cycle
@@ -71,6 +72,10 @@ Le tout piloté par une seule interface Web.
 * Premier temps installer le logiciel [Arduino](https://www.arduino.cc/en/Main/Software)
 * [Configurer](ConfigurerArduino.md).
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+* Télécharger la derniere version. [Latest release](https://github.com/Miauto/Fi-DEL/releases)
+>>>>>>> e2d36cbe2d0ce01882b2d930f674418f0c97a551
 * Au premier demarrage il vas crée son propore WIFI
   * Fi-DEL avec mot de passe 12345678
   * IP/Config renseigner le SSID et MDP
@@ -116,6 +121,7 @@ Avec un navigateur on peut controler les LED mais on peut aussi avec des logicie
 
 ## Autres Exemples sur Projet Similaires
  [easydomoticz.com Lampe Informative RGB WIFI](http://easydomoticz.com/forum/viewtopic.php?f=24&t=1834)
+ 
  [jeedom.com Tuto réaliser une lampe Wifi](https://www.jeedom.com/forum/viewtopic.php?f=84&t=18819)
 =======
 - Wifi non reparamétrable via le web.
