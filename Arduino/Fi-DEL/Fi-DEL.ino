@@ -89,8 +89,7 @@ void setup ( void ) {
   Serial.print("PASS: ");
   Serial.println(epass);
 
-    uint8_t eNUM_LEDS = 0;
-      eNUM_LEDS = int(EEPROM.read(96));
+  NUM_LEDS = int(EEPROM.read(96));
   Serial.print("Nombre de LEDs: ");
   Serial.println(NUM_LEDS);
 

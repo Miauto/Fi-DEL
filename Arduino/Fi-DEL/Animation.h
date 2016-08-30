@@ -1,10 +1,12 @@
 #define DATA_PIN    0         // Borne Data
-#define NUM_LEDS    24         // Nombre de Leds
+#define MAX_NUM_LEDS    99    // Nombre de Leds
 
 #define COLOR_ORDER GRB       // Ordre des couleurs
 #define LED_TYPE    WS2812B   // Types des Leds
 
-CRGB leds[NUM_LEDS];          // Tableau de leds
+int NUM_LEDS;
+
+CRGB leds[MAX_NUM_LEDS];          // Tableau de leds
 CRGBSet ledSet(leds, NUM_LEDS);    //Setup FastLED
 
 
