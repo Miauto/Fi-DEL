@@ -30,7 +30,14 @@
   <body>
   <a href="/"><svg class="icon icon-reply" Style="position:fixed left:5px top:5px"><use xlink:href="#icon-reply"></use></svg></a>
 <br>
+Parametres Wifi
+  <br>
   <form method='get' action='setting'><label>SSID: </label><input name='ssid' length=32><label>MDP: </label><input name='pass' length=64><input type='submit'></form>
+  <br>
+    <br>
+  <form action="/update">
+  <input type="submit"  value="Mise a Jour" >
+  </form>
     </body>
 </html>
   )=====";
