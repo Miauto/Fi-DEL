@@ -1,11 +1,19 @@
 #define DATA_PIN    0         // Borne Data
-#define NUM_LEDS    24         // Nombre de Leds
+#define MAX_NUM_LEDS    99         // Nombre de Leds
+int NUM_LEDS;
 
 #define COLOR_ORDER GRB       // Ordre des couleurs
 #define LED_TYPE    WS2812B   // Types des Leds
 
-CRGB leds[NUM_LEDS];          // Tableau de leds
+
+CRGB leds[MAX_NUM_LEDS];          // Tableau de leds
 CRGBSet ledSet(leds, NUM_LEDS);    //Setup FastLED
+
+
+void StartFastLED(){
+FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+FastLED.setBrightness(BRIGHTNESS);
+}
 
 
 void setPixel(int Pixel, byte red, byte green, byte blue) {
@@ -117,7 +125,7 @@ void HexatoDec(String Hexa) {
 
 ////////////////////////// Rainbow
 void Rainbow(uint16_t wait, byte* j) {
-  *j = *j + 1;
+  *j += 1;
   fill_rainbow( leds, NUM_LEDS, *j, 0);
   FastLED.show();
   FastLED.delay(1000 / wait);
@@ -126,7 +134,7 @@ void Rainbow(uint16_t wait, byte* j) {
 
 ////////////////////////// Rainbow Cycle
 void RainbowCycle(uint16_t wait, byte* j) {
-  *j = *j + 1;
+  *j += 1;
   fill_rainbow( leds, NUM_LEDS, *j, NUM_LEDS / 2 );
   FastLED.show();
   FastLED.delay(1000 / wait);
@@ -174,7 +182,7 @@ void TwinkleRandom(boolean OnlyOne, uint8_t Sat, uint8_t Bri) {
 
 ////////////////////////// Fire Start
 void Fire(int Cooling, int Sparking, int SpeedDelay) {
-  static byte heat[NUM_LEDS];
+  static byte heat[MAX_NUM_LEDS];
   int cooldown;
 
   // Step 1.  Cool down every cell a little
@@ -229,7 +237,6 @@ void addGlitter( fract8 chanceOfGlitter)
     leds[ random16(NUM_LEDS) ] += CRGB::White;
   }
   FastLED.show();
-  FastLED.delay(1000 / FRAMES_PER_SECOND);
 }
 /*****************************************
               FIN GLITTER
@@ -239,11 +246,12 @@ void addGlitter( fract8 chanceOfGlitter)
 /*///////////////////////////////////
             RAINBOW GLITTER
   ////////////////////////////////////*/
-void RainbowWithGlitter()
+void RainbowWithGlitter(uint16_t wait)
 {
   // built-in FastLED rainbow, plus some random sparkly glitter
-  Rainbow(500, &RainbowIndex);
+  Rainbow(wait/2, &RainbowIndex);
   addGlitter(80);
+  FastLED.delay(wait/2);
 }
 /*****************************************
            FIN  RAINBOW GLITTER
@@ -254,7 +262,7 @@ void RainbowWithGlitter()
   ////////////////////////////////////*/
 void Confetti(byte* gHue)
 {
-  *gHue++;
+  *gHue += 1;
   // random colored speckles that blink in and fade smoothly
   fadeToBlackBy( leds, NUM_LEDS, 10);
   int pos = random16(NUM_LEDS);
@@ -268,7 +276,7 @@ void Confetti(byte* gHue)
 
 void Sinelon(byte* gHue)
 {
-  *gHue++;
+  *gHue += 1;
   // a colored dot sweeping back and forth, with fading trails
   fadeToBlackBy( leds, NUM_LEDS, 20);
   int pos = beatsin16(13, 0, NUM_LEDS);
@@ -277,9 +285,9 @@ void Sinelon(byte* gHue)
   FastLED.delay(1000 / FRAMES_PER_SECOND);
 }
 
-void bpm(byte* gHue)
+void Bpm(byte* gHue)
 {
-  *gHue++;
+  *gHue += 1;
   // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
   uint8_t BeatsPerMinute = 62;
   CRGBPalette16 palette = PartyColors_p;
@@ -291,7 +299,7 @@ void bpm(byte* gHue)
   FastLED.delay(1000 / FRAMES_PER_SECOND);
 }
 
-void juggle() {
+void Juggle() {
   // eight colored dots, weaving in and out of sync with each other
   fadeToBlackBy( leds, NUM_LEDS, 20);
   byte dothue = 0;
@@ -309,7 +317,7 @@ void juggle() {
 void Fire2012(bool gReverseDirection, int COOLING /* 55 */, byte SPARKING /* 120 */) {
 
   // Array of temperature readings at each simulation cell
-  static byte heat[NUM_LEDS];
+  static byte heat[MAX_NUM_LEDS];
 
   // Step 1.  Cool down every cell a little
   for ( int i = 0; i < NUM_LEDS; i++) {
@@ -364,6 +372,64 @@ void Nuage() {
     Nuage_targetPalette = CRGBPalette16(CHSV(random8(), 255, random8(128, 255)), CHSV(random8(), 255, random8(128, 255)), CHSV(random8(), 192, random8(128, 255)), CHSV(random8(), 255, random8(128, 255)));
   }
 
+  FastLED.show();                    // Display the LED's at every loop cycle.
+  FastLED.delay(1000 / FRAMES_PER_SECOND);
+}
+
+/*////////////////////////////////
+            Ripples
+*////////////////////////////////
+int Rip_wrap(int Rip_step) {
+  if(Rip_step < 0) return NUM_LEDS + Rip_step;
+  if(Rip_step > NUM_LEDS - 1) return Rip_step - NUM_LEDS;
+  return Rip_step;
+}
+
+void one_color_allHSV(int ahue, int abright) {                // SET ALL LEDS TO ONE COLOR (HSV)
+  for (int i = 0 ; i < NUM_LEDS; i++ ) {
+    leds[i] = CHSV(ahue, 255, abright);
+  }
+}
+
+void Ripple() {
+ 
+    if (Rip_currentBg == Rip_nextBg) {
+      Rip_nextBg = random(256);
+    }
+    else if (Rip_nextBg > Rip_currentBg) {
+      Rip_currentBg++;
+    } else {
+      Rip_currentBg--;
+    }
+    for(uint16_t l = 0; l < NUM_LEDS; l++) {
+      leds[l] = CHSV(Rip_currentBg, 255, 50);
+    }
+  if (Rip_step == -1) {
+    Rip_center = random(NUM_LEDS);
+    Rip_color = random(256);
+    Rip_step = 0;
+  }
+  if (Rip_step == 0) {
+    leds[Rip_center] = CHSV(Rip_color, 255, 255);
+    Rip_step ++;
+  }
+  else {
+    if (Rip_step < Rip_maxSteps) {
+      Serial.println(pow(Rip_fadeRate,Rip_step));
+ 
+      leds[Rip_wrap(Rip_center + Rip_step)] = CHSV(Rip_color, 255, pow(Rip_fadeRate, Rip_step)*255);
+      leds[Rip_wrap(Rip_center - Rip_step)] = CHSV(Rip_color, 255, pow(Rip_fadeRate, Rip_step)*255);
+      if (Rip_step > 3) {
+        leds[Rip_wrap(Rip_center + Rip_step - 3)] = CHSV(Rip_color, 255, pow(Rip_fadeRate, Rip_step - 2)*255);
+        leds[Rip_wrap(Rip_center - Rip_step + 3)] = CHSV(Rip_color, 255, pow(Rip_fadeRate, Rip_step - 2)*255);
+      }
+      Rip_step ++;
+    }
+    else {
+      Rip_step = -1;
+    }
+  }
+ 
   FastLED.show();                    // Display the LED's at every loop cycle.
   FastLED.delay(1000 / FRAMES_PER_SECOND);
 }

@@ -7,7 +7,7 @@ ESP8266WebServer server ( 80 );
 MDNSResponder mdns;
 ESP8266HTTPUpdateServer httpUpdater;
 
-#define HOST_NAME  "Fi-Del"
+#define HOST_NAME  "fidel"
 #define ACCESS_POINT_NAME  "Fi-Del"
 #define ACCESS_POINT_PASSWORD  "12345678"
 String Statuses[] =  { "WL_IDLE_STATUS=0",
@@ -74,6 +74,7 @@ void createWebServer(int webtype)
         server.on("/setting", []() {
         String qsid = server.arg("ssid");
         String qpass = server.arg("pass");
+        byte qnumled = server.arg("numled").toInt();
         if (qsid.length() > 0 && qpass.length() > 0) {
           Serial.println("clearing eeprom");
           for (int i = 0; i < 96; ++i) { EEPROM.write(i, 0); }
@@ -98,6 +99,16 @@ void createWebServer(int webtype)
             }
           EEPROM.commit();
           content = "{\"Success\":\"Le nouveau SSID et MDP sont sauvegarde... Un redemarrage du serveur est effectue\"}";
+          statusCode = 200;
+        } else if (qnumled > 0) {
+          Serial.println("clearing eeprom byte 96");
+          EEPROM.write(96, 0);
+          Serial.println("Ecriture eeprom NUM_LED:");
+          EEPROM.write(96, qnumled);
+          Serial.print("Ecriture: ");
+          Serial.println(qnumled);
+          EEPROM.commit();
+          content = "{\"Success\":\"Le nouveau nombre de led sont sauvegarde... Un redemarrage du serveur est effectue\"}";
           statusCode = 200;
         } else {
           content = "{\"Error\":\"404 not found\"}";
@@ -162,6 +173,7 @@ void setupAP(void) {
     }
   st += "</ol>";
   delay(100);
+  WiFi.mode(WIFI_AP);
   WiFi.softAP(ACCESS_POINT_NAME, ACCESS_POINT_PASSWORD, 6);
   Serial.println("softap");
   launchWeb(1);
@@ -170,9 +182,10 @@ void setupAP(void) {
 
 // MDNS
 void MDNSConnect() {
+  MDNS.begin(HOST_NAME);
   if (!MDNS.begin(HOST_NAME)) {
    Serial.println("Error setting up MDNS responder!");
-    while (1) {
+    while (!MDNS.begin(HOST_NAME)) {
       delay(1000);
     }
   }

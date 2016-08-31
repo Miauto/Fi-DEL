@@ -32,7 +32,11 @@
 <br>
 Parametres Wifi
   <br>
-  <form method='get' action='setting'><label>SSID: </label><input name='ssid' length=32><label>MDP: </label><input name='pass' length=64><input type='submit'></form>
+  <form method='get' action='setting'><label>SSID: </label><input name='ssid' length=32><label> MDP: </label><input name='pass' length=64><input type='submit'></form>
+  <br>
+Nombre de LEDs:
+    <br>
+  <form method='get' action='setting'><label>Compris entre 1-99</label><input name='numled' length=1><input type='submit'></form>
   <br>
     <br>
   <form action="/update">
@@ -82,20 +86,20 @@ const char main_page[] PROGMEM = R"=====(
   <br>
   <a href="/Blackout"><div class="block-25" style='background-color:Black; width:100%; color:White'>BLACKOUT</div></a>
 
-  <a href="/Neige"><div class="block-25" style='background-color:white'>Neige</div></a>
+  <a href="/Neige"><div class="block-25" style='background-color:Snow'>Neige</div></a>
   <a href="/Gyro"><div class="block-25" style='background-color:red'>Gyro</div></a>
   <a href="/Rainbow"><div class="block-25" id="anirainbow" style="background-color:orange">Rainbow</div></a>
   <a href="/RainbowCycle"><div class="block-25" style='background-color:pink'>Rainbow Cycle</div></a>
 
   <a href="/Fire"><div class="block-25" style='background-color:Orange'>Fire</div></a>
-  <a href="/Confetti"><div class="block-25" style='background-color:grey'>Confetti</div></a>
-  <a href="/Nuage"><div class="block-25" style='background-color:grey'>Nuage</div></a>
-  <a href="/RainbowWithGlitter"><div class="block-25" style='background-color:grey'>Rainbow + Glitter</div></a>
+  <a href="/Confetti"><div class="block-25" style='background-color:LimeGreen'>Confetti</div></a>
+  <a href="/Nuage"><div class="block-25" style='background-color:Turquoise'>Nuage</div></a>
+  <a href="/RainbowWithGlitter"><div class="block-25" style='background-color:Snow'>Rainbow + Glitter</div></a>
 
-  <a href="/TwinkleRandom"><div class="block-25" style='background-color:grey'>TwinkleRandom</div></a>
-  <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
-  <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
-  <a href="/"><div class="block-25" style='background-color:grey'>---</div></a>
+  <a href="/TwinkleRandom"><div class="block-25" style='background-color:OldLace'>TwinkleRandom</div></a>
+  <a href="/Juggle"><div class="block-25" style='background-color:SeaGreen'>Juggle</div></a>
+  <a href="/Bpm"><div class="block-25" style='background-color:grey'>Bpm</div></a>
+  <a href="/Ripple"><div class="block-25" style='background-color:grey'>Ripple</div></a>
 
   <a href="/color?vitesse=50"><div class="block-25" style='background-color:white'>Strobe 50ms</div></a>
   <a href="/color?vitesse=75"><div class="block-25" style='background-color:white'>Strobe 75ms</div></a>
@@ -103,9 +107,9 @@ const char main_page[] PROGMEM = R"=====(
   <a href='/color?vitesse=0'><div class="block-25" style='background-color:white'>Fixe</div></a>
 
  <center>
- <form action="/color" method="get" oninput="x.value=parseInt(Hue.value)">
+ <form action="/color" method="get" oninput="x.value=parseInt(vitesse.value)">
    <h1>Vitesse:  <output name="x" for="vitesse">0</output></h1>
-  <input type="range" max="250" min="0" step="50" name="vitesse" data-rangeslider>
+  <input type="range" max="500" min="0" step="50" name="vitesse" data-rangeslider>
   <br>
   <button style="width:50%;height:6em;border-radius:10px">envoyer</button>
   </form>

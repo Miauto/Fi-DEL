@@ -1,5 +1,6 @@
 #include <EEPROM.h>
 #include <FastLED.h>
+FASTLED_USING_NAMESPACE
 
 #include "Configuration.h"
 #include "Page_Script.js.h"
@@ -90,13 +91,12 @@ void setup ( void ) {
   Serial.println(epass);
 
     uint8_t eNUM_LEDS = 0;
-      eNUM_LEDS = int(EEPROM.read(96));
+      NUM_LEDS = int(EEPROM.read(96));
+      if (NUM_LEDS == 0) { NUM_LEDS = 1; }
   Serial.print("Nombre de LEDs: ");
   Serial.println(NUM_LEDS);
-
-
-  FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-  FastLED.setBrightness(BRIGHTNESS);
+  
+StartFastLED();
 
   /*======================================
               Debut Connection WIFI
@@ -114,63 +114,7 @@ void setup ( void ) {
   } else { //EEPROM VIDE
     setupAP();
   }
-/*
-    WiFi.mode(WIFI_STA);
-    WiFi.disconnect();
-    int SSID_N = 0;
-    Serial.println ( "" );
-    Serial.println ( "Connection au SSID : " );
-    Serial.print ( ssid[SSID_N] );
-    WiFi.begin ( ssid[SSID_N], password[SSID_N] );
-    Serial.println ( "" );
-    // Wait for connection
-    while ( WiFi.status() != WL_CONNECTED && WifiNotFound <= 3) {
-      delay ( 500 );
-      Serial.print ( "." );
-      Serial.print ( ErrComm );
-      ErrComm = ErrComm + 1;
-      if (ErrComm > 15) {
-        Serial.println ( "" );
-        Serial.println ( "SSID non present" );
-        SSID_N++;
-        if (SSID_N > (nbssid - 1) ) {
-          SSID_N = 0;
-          Blink(255, 0, 0, 100, 100, 3);
-          Blink(0, 0, 255, 100, 100, 1); // clignotte 3 fois rouge et 1 bleu pour erreur wifi
-          WifiNotFound = WifiNotFound + 1;
-        }
-        ErrComm = 0;
-        Serial.println ( "" );
-        Serial.println ( "Connection au SSID : " );
-        Serial.print ( ssid[SSID_N] );
-        Serial.println ( "" );
-        WiFi.begin ( ssid[SSID_N], password[SSID_N] );
-      }
-    }
-    if ( WiFi.status() == WL_CONNECTED ) {
-      Serial.println ( "" );
-      Serial.print ( "Connecte a " );
-      Serial.println ( ssid[SSID_N] );
-      Serial.print ( "IP Adresse: " );
-      Serial.println ( WiFi.localIP() );
-    }
 
-    if ( WifiNotFound > 3 && ModeWifi_STA == true) {
-      Serial.println ( "" );
-      Serial.println ( "Creation de point Wifi " );
-      WiFi.mode(WIFI_AP);
-      WiFi.softAP( ACCESS_POINT_NAME , ACCESS_POINT_PASSWORD);
-      Serial.println ( "" );
-      Serial.print ( "SSID : " );
-      Serial.println ( ACCESS_POINT_NAME );
-      Serial.print ( "PASSWORD : " );
-      Serial.println ( ACCESS_POINT_PASSWORD );
-      Serial.print ( "IP Adresse: " );
-      Serial.println ( WiFi.localIP() );
-    }
-
-
-  */
   /*======================================
               Fin Connection WIFI
     ======================================*/
@@ -216,6 +160,21 @@ void setup ( void ) {
     digitalWrite(BlueLed, LOW);
     handleRoot();
   } );
+  server.on ( "/Juggle", []()    {
+    Choix = "Juggle";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
+  server.on ( "/Bpm", []()    {
+    Choix = "Bpm";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
+  server.on ( "/Ripple", []()    {
+    Choix = "Ripple";
+    digitalWrite(BlueLed, LOW);
+    handleRoot();
+  } );
   server.on ( "/Fire", []()    {
     Choix = "Fire";
     digitalWrite(BlueLed, LOW);
@@ -247,7 +206,7 @@ void setup ( void ) {
     handleRoot();
   } );
   server.on ( "/Config", []() {
-    Choix = "Config";
+//    Choix = "Config";
     digitalWrite(BlueLed, LOW);
     server.send ( 200, "text/html", config_page );
   } );
@@ -285,11 +244,11 @@ void loop ( void ) {
   if (Choix == "Neige") {
     SnowSparkle(0x10, 0x10, 0x10, 100, random(200, 1000));
   } else if (Choix == "Rainbow") {
-    Rainbow(500, &RainbowIndex);
+    Rainbow(FRAMES_PER_SECOND/2, &RainbowIndex);
   } else if (Choix == "RainbowWithGlitter") {
-    RainbowWithGlitter();
+    RainbowWithGlitter(FRAMES_PER_SECOND);
   } else if (Choix == "RainbowCycle") {
-    RainbowCycle(300, &RainbowCycleIndex);
+    RainbowCycle(FRAMES_PER_SECOND/2, &RainbowCycleIndex);
   } else if (Choix == "Gyro") {
     LeftToRight(255, 0, 0, 300, 0, &SinelonIndex);
   } else if (Choix == "TwinkleRandom") {
@@ -300,6 +259,12 @@ void loop ( void ) {
     Sinelon(&SinelonIndex);
   } else if (Choix == "Nuage") {
     Nuage();
+  } else if (Choix == "Juggle") {
+    Juggle();
+  } else if (Choix == "Bpm") {
+    Bpm(&BpmIndex);
+  } else if (Choix == "Ripple") {
+    Ripple();
   } else if (Choix == "Fire") {
     Fire(1, 1000, 100);
     //    Fire2012(false, 200, 80);

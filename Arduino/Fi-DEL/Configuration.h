@@ -21,6 +21,7 @@ byte RainbowIndex;
 byte RainbowCycleIndex;
 byte ConfettiIndex;
 byte SinelonIndex;
+byte BpmIndex;
 
 /*=========================================
  *        Variables Nuage Rainbow
@@ -32,6 +33,21 @@ CRGBPalette16 Nuage_currentPalette(CRGB::Black);
 CRGBPalette16 Nuage_targetPalette(OceanColors_p);
 
 /*=========================================
+ *        Variables Ripples
+ *=========================================*/
+int Rip_color;
+int Rip_center = 0;
+int Rip_step = -1;
+int Rip_maxSteps = 16;
+float Rip_fadeRate = 0.8;
+int Rip_diff;
+//background color
+uint32_t Rip_currentBg = random(256);
+uint32_t Rip_nextBg = Rip_currentBg;
+
+
+
+/*=========================================
  *        HTTP GET
  ========================================*/
 
@@ -41,24 +57,3 @@ const char *AdrServeur[] = {
   ""
 };
 
-
-/*=========================================
- *    PARAMETRE WIFI
- ==========================================*/
-const int nbssid = 2; // Nombre SSID dans le tableau
-
-// =========== ATTENTION AUX VIRGULES DU TABLEAU =========
-const char *ssid[] = {
-  "SSID_1",
-  "SSID_2"
-};
-const char *password[] = {
-  "PASS_1",
-  "PASS_2"
-};
-
-byte ErrComm        = 0;
-byte WifiNotFound   = 0;
-
-boolean ModeWifi_STA = true; // Active point accès Wifi si il ne trouve pas de WIFI
-boolean EtatWifiSec = false;
