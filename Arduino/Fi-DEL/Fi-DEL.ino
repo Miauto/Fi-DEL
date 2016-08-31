@@ -93,6 +93,14 @@ void setup ( void ) {
     uint8_t eNUM_LEDS = 0;
       NUM_LEDS = int(EEPROM.read(96));
       if (NUM_LEDS == 0) { NUM_LEDS = 1; }
+      if (NUM_LEDS > MAX_NUM_LEDS) {
+          Serial.println("clearing eeprom byte 96");
+          EEPROM.write(96, MAX_NUM_LEDS);
+          Serial.print("Ecriture: ");
+          Serial.println(MAX_NUM_LEDS);
+          EEPROM.commit();
+          NUM_LEDS = int(EEPROM.read(96));
+      }
   Serial.print("Nombre de LEDs: ");
   Serial.println(NUM_LEDS);
   
