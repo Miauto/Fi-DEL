@@ -1,5 +1,7 @@
 # Fi-DEL
 
+![](https://img.shields.io/github/stars/Miauto/Fi-DEL.svg) ![](https://img.shields.io/github/forks/Miauto/Fi-DEL.svg) ![](https://img.shields.io/github/tag/Miauto/Fi-DEL.svg) ![](https://img.shields.io/github/release/Miauto/Fi-DEL.svg) ![](https://img.shields.io/github/issues/Miauto/Fi-DEL.svg) ![](https://img.shields.io/bower/v/Fi-DEL.svg)
+
 Création de plusieurs Lampes LED connectées au wifi, à l'aide de Wemos D1-mini. Normalement compatibles avec d'autres ESP8622.
 
 ![Fi-DEL](/images/Fi-DEL.png?raw=true "Fi-DEL")
